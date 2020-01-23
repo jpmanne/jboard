@@ -16,9 +16,47 @@ public class URLConstants {
 		public static final String DELETE_USER = "/{userDetailsId}";
 	}
 	
+	//=========================================================================
+	
 	public class Login {
 		public static final String API_BASE = "/api/user";
 		public static final String LOGIN_USER = "/login";
 		public static final String LOGOUT_USER = "/logout";
 	}
+	
+	//=========================================================================
+	
+	public class Registration {
+		public static final String API_BASE = "/api/registration";
+	}
+	
+	//=========================================================================
+	
+	public class Job {
+		public static final String API_BASE = "/api/job";
+
+	}
+	
+	//=========================================================================
+	
+	public class Resume {
+		public static final String API_BASE = "/api/resume";
+
+	}
+	
+	//=========================================================================
+	
+	public class Message {
+		public static final String API_BASE = "/api/message";
+
+	}
+	
+	//=========================================================================
+	
+	public class Preferences {
+		public static final String API_BASE = "/api/preferences";	
+	
+	}
+	
+	//=========================================================================
 }
