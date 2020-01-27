@@ -177,14 +177,14 @@ public class UserController extends BaseController {
 					    UserDetails existingUser = user.get();
 					    existingUser.setFirstName(userDetails.getFirstName());
 					    existingUser.setLastName(userDetails.getLastName()); 
-					    existingUser.setMiddleName(userDetails.getMiddleName());
+					    //existingUser.setMiddleName(userDetails.getMiddleName());
 					    existingUser.setEmail(userDetails.getEmail());
 					    existingUser.setPhoneNumber(userDetails.getPhoneNumber());
-					    existingUser.setAddressLine1(userDetails.getAddressLine1());
-					    existingUser.setAddressLine2(userDetails.getAddressLine2());
-					    existingUser.setCity(userDetails.getCity());
-					    existingUser.setState(userDetails.getState());
-					    existingUser.setCountry(userDetails.getCountry());
+					    //existingUser.setAddressLine1(userDetails.getAddressLine1());
+					    //existingUser.setAddressLine2(userDetails.getAddressLine2());
+					    //existingUser.setCity(userDetails.getCity());
+					    //existingUser.setState(userDetails.getState());
+					    //existingUser.setCountry(userDetails.getCountry());
 						UserDetails updatedUserDetails = userRepository.save(existingUser);
 						response = new Response("Update User Successful", updatedUserDetails.getWebUser());
 					} else {

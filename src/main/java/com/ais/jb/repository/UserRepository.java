@@ -5,7 +5,6 @@
 */
 package com.ais.jb.repository;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,10 +17,10 @@ import com.ais.jb.dao.model.UserDetails;
 @Repository
 public interface UserRepository extends JpaRepository<UserDetails, Long> {
 	
-	@Query("SELECT a FROM UserDetails a WHERE a.userName = :userName AND a.password = :password")
-	List<UserDetails> getUserByUserNameAndPassword(@Param("userName") String userName, @Param("password") String password);
+	@Query("SELECT a FROM UserDetails a WHERE a.email = :email AND a.password = :password")
+	List<UserDetails> getUserByEmailAndPassword(@Param("email") String email, @Param("password") String password);
 	
-	List<UserDetails> getUsersByDateOfBirth(Date dateOfBirth);
+	//List<UserDetails> getUsersByDateOfBirth(Date dateOfBirth);
 	
 	@Query("SELECT a FROM UserDetails a WHERE a.status = :status")
 	List<UserDetails> getAllUsers(String status);

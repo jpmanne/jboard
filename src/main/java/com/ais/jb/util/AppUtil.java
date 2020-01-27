@@ -12,9 +12,9 @@ public class AppUtil {
 		for(UserDetails ud  : users) {
 			if(userDetailsId == ud.getUserDetailsId()) {
 				String fullName = ud.getFirstName();
-				if(ud.getMiddleName() != null && ud.getMiddleName().trim().length() > 0) {
+				/*if(ud.getMiddleName() != null && ud.getMiddleName().trim().length() > 0) {
 					fullName = fullName.concat(" ").concat(ud.getMiddleName());
-				}
+				}*/
 				fullName = fullName.concat(" ").concat(ud.getLastName());
 				return fullName;
 			}

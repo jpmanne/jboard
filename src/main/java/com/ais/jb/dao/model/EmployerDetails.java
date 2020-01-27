@@ -26,24 +26,21 @@ public class EmployerDetails {
 	@Column(name = "employer_details_id", length = 20, nullable = false)
 	private Long employerDetailsId;
 
-	@Column(name = "employer_name", length = 150, nullable = false)
-	private String employerName;
+	@Column(name = "company_name", length = 150, nullable = false)
+	private String companyName;
 	
-	@Column(name = "email", length = 150, nullable = false)
-	private String email;
+	@Column(name = "company_size", length = 25, nullable = false)
+	private String companySize;
 	
-	@Column(name = "phone_number", length = 15, nullable = false)
-	private String phoneNumber;
+	@Column(name = "recruiter_hiring_for_client", length = 15, nullable = false)
+	private String recruiterHiringForClient;
 	
-	@Column(name = "address1", length = 150, nullable = true)
-	private String address1;
-	
-	@Column(name = "address2", length = 150, nullable = true)
-	private String address2;
+	@Column(name = "how_hear_about_us", length = 100, nullable = false)
+	private String howHearAboutUs;
 	
 	@OneToOne
-	@JoinColumn(name = "user_credentials_id")
-	private UserCredentials userCredentials;
+	@JoinColumn(name = "user_details_id")
+	private UserDetails userDetails;
 
 	public Long getEmployerDetailsId() {
 		return employerDetailsId;
@@ -53,51 +50,43 @@ public class EmployerDetails {
 		this.employerDetailsId = employerDetailsId;
 	}
 
-	public String getEmployerName() {
-		return employerName;
+	public String getCompanyName() {
+		return companyName;
 	}
 
-	public void setEmployerName(String employerName) {
-		this.employerName = employerName;
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
 	}
 
-	public String getEmail() {
-		return email;
+	public String getCompanySize() {
+		return companySize;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setCompanySize(String companySize) {
+		this.companySize = companySize;
 	}
 
-	public String getPhoneNumber() {
-		return phoneNumber;
+	public String getRecruiterHiringForClient() {
+		return recruiterHiringForClient;
 	}
 
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
+	public void setRecruiterHiringForClient(String recruiterHiringForClient) {
+		this.recruiterHiringForClient = recruiterHiringForClient;
 	}
 
-	public String getAddress1() {
-		return address1;
+	public String getHowHearAboutUs() {
+		return howHearAboutUs;
 	}
 
-	public void setAddress1(String address1) {
-		this.address1 = address1;
+	public void setHowHearAboutUs(String howHearAboutUs) {
+		this.howHearAboutUs = howHearAboutUs;
 	}
 
-	public String getAddress2() {
-		return address2;
+	public UserDetails getUserDetails() {
+		return userDetails;
 	}
 
-	public void setAddress2(String address2) {
-		this.address2 = address2;
-	}
-
-	public UserCredentials getUserCredentials() {
-		return userCredentials;
-	}
-
-	public void setUserCredentials(UserCredentials userCredentials) {
-		this.userCredentials = userCredentials;
+	public void setUserDetails(UserDetails userDetails) {
+		this.userDetails = userDetails;
 	}
 }

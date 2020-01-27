@@ -55,7 +55,7 @@ public class LoginController extends BaseController {
 		
 		try {
 			// Getting the user with the userName and password
-			List<UserDetails> users = userRepository.getUserByUserNameAndPassword(loginRequest.getUserName(), loginRequest.getPassword());
+			List<UserDetails> users = userRepository.getUserByEmailAndPassword(loginRequest.getEmail(), loginRequest.getPassword());
 			
 			if(users != null && !users.isEmpty()) {
 				if(users.size() > 1) {
@@ -72,7 +72,7 @@ public class LoginController extends BaseController {
 					loginResponse = new LoginResponse();
 					loginResponse.setAuthCode(authCodeDetails.getAuthCode());
 					loginResponse.setFistName(userDetails.getFirstName());
-					loginResponse.setMiddleName(userDetails.getMiddleName());
+					//loginResponse.setMiddleName(userDetails.getMiddleName());
 					loginResponse.setLastName(userDetails.getLastName());
 					loginResponse.setUserDetailsId(userDetails.getUserDetailsId());
 					loginResponse.setRoleId(userDetails.getRoleDetails().getRoleId());

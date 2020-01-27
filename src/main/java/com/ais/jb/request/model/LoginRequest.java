@@ -9,13 +9,13 @@ import java.io.Serializable;
 
 public class LoginRequest implements Serializable {
 	private static final long serialVersionUID = -9017991349826302604L;
-	private String userName;
+	private String email;
 	private String password;
-	public String getUserName() {
-		return userName;
+	public String getEmail() {
+		return email;
 	}
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	public String getPassword() {
 		return password;
@@ -23,4 +23,5 @@ public class LoginRequest implements Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
 }
