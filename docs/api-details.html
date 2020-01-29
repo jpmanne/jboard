@@ -17,9 +17,9 @@
         .header {
           width: 100%;
           height: 50px;
-		  color: white;
-          background-color: #000000;
-          border-bottom: 1px solid #000000;
+          /*background-color: #53b5aa;*/
+		  background-color: #313131;
+          border-bottom: 1px solid #dacfcf;
         }
 
         .container {
@@ -49,8 +49,7 @@
         ul.menu-items {
           list-style-type: none;
           padding: 0px;
-          /*background-color: #e6e2e2;*/
-		  background-color: #FFFFFF;
+          background-color: #e6e2e2;
           margin: 0px;
         }
 
@@ -61,15 +60,15 @@
         }
 
         ul.menu-items li:hover {
-          background-color: #a7fafa;
+          background-color: #cccdce;
         }
 
         ul.menu-items li.active {
-          background-color: #a7fafa;
+          background-color: #cccdce;
         }
 
         ul.menu-items li {
-          border-bottom: 1px solid #a7fafa;
+          border-bottom: 1px solid #dacfcf;
         }
 
         .content-section-body {
@@ -79,24 +78,23 @@
         }
 
         .description-of-service {
-          /*border: 1px solid #000000;*/
+          /*border: 1px solid #dacfcf;*/
+		  border: 1px solid #dacfcf;
           margin: 20px 0px 0px 20px;
           padding: 10px;
           font-size: 14px;
-          /*background-color: #f1f0f0;*/
-		  background-color:  #edffff;
-		 
+          background-color: #f1f0f0;
         }
 
         .method-content-type-url-table {
-          border: 1px solid #a7fafa;
+          border: 1px solid #dacfcf;
           margin: 20px 0px 0px 20px;
           display: flex;
           flex-direction: column;
         }
 
         .method-content-type-url-table-content {
-          border-bottom: 1px solid #a7fafa;
+          border-bottom: 1px solid #dacfcf;
           margin: 0px;
           display: flex;
           flex-direction: row;
@@ -107,57 +105,57 @@
         }
 
         .method.table-header, .method.body {
-          width: 18%;
+          width: 20%;
         }
 
         .method.table-header {
           text-align: center;
           font-weight: bold;
           font-size: 13px;
-          background-color: #d2e6f8;
+          background-color: lightgrey;
         }
 
         .method.body {
           font-size: 14px;
-		  text-align:center;
+		  text-align: center;
         }
 
         .content-type.table-header, .content-type.body {
-          width: 32%;
-          border-left: 1px solid #a7fafa;
-          border-right: 1px solid #a7fafa;
+          width: 30%;
+          border-left: 1px solid #dacfcf;
+          border-right: 1px solid #dacfcf;
         }
 
         .content-type.table-header {
           text-align: center;
           font-weight: bold;
           font-size: 13px;
-          background-color: #d2e6f8;
+          background-color: lightgrey;
         }
 
         .content-type.body {
           font-size: 14px;
-		  text-align:center;
+		  text-align: center;
         }
 
         .url.table-header, .url.body {
           width: 50%;
-		  text-align:center;
         }
 
         .url.table-header {
           text-align: center;
           font-weight: bold;
           font-size: 13px;
-          background-color: #d2e6f8;
+          background-color: lightgrey;
         }
 
         .url.body {
           font-size: 14px;
+		  text-align: center;
         }
 
         .request-object {
-          border: 1px solid #a7fafa;
+          border: 1px solid #dacfcf;
           margin: 20px 0px 20px 20px;
         }
 
@@ -165,13 +163,13 @@
           text-align: center;
 		  font-weight: bold;
           font-size: 13px;
-          background-color: #d2e6f8;
+          background-color: lightgrey;
         }
 
         .request-object-body {
-          border-top: 1px solid #a7fafa;
+          border-top: 1px solid #dacfcf;
           font-size: 14px;
-          background-color: white;
+          background-color: #f1f1f1;
           min-height: 30px;
         }
 
@@ -186,47 +184,48 @@
           flex-direction: row;
         }
         .validation-details-left-table {
-          border: 1px solid #a7fafa;
+          border: 1px solid #dacfcf;
           margin: 20px 10px 20px 20px;
           width: 50%;
         }
 
         .validation-details-right-table {
-          border: 1px solid #a7fafa;
+          border: 1px solid #dacfcf;
           margin: 20px 0px 20px 0px;
           width: 50%;
         }
 
         .validation-details-table-header {
-          border-bottom: 1px solid #a7fafa;
+          border-bottom: 1px solid #dacfcf;
           text-align: center;
           font-weight: bold;
           font-size: 13px;
-          background-color: #d2e6f8;
+          background-color: lightgrey;
           display: flex;
           flex-direction: row;
         }
 
         .validation-details-table-body {
-          border-bottom: 1px solid #a7fafa;
+          border-bottom: 1px solid #dacfcf;
           font-size: 14px;
           display: flex;
           flex-direction: row;
         }
 
         .validation-details-table-body:last-child {
-          border-bottom: 0px solid #a7fafa;
+          border-bottom: 0px solid #000000;
         }
 
         .field.validation-details-body-table-header, .field.validation-details-body-table-body {
           width: 40%;
-          border-right: 1px solid #a7fafa;
+          border-right: 1px solid #dacfcf;
         }
 		.header-align {
 			font-size: 30px;
 			margin-left: 1%;
-		}	
-		
+			color: #ffffff;
+		}
+			
       </style>
   </head>
   <body>
@@ -267,8 +266,7 @@
                 <div class="method table-header">Method</div>
                 <div class="content-type table-header">Content Type</div>
                 <div class="url table-header">URL</div>
-              </div>
-            
+              </div>            
               <div class="method-content-type-url-table-content">
                 <div class="method body">POST</div>
                 <div class="content-type body">application/json</div>
@@ -292,7 +290,7 @@
 
             <div class="request-object">
               <div class="request-object-header">
-                Response Object
+                 Response Object
               </div>
               <div class="request-object-body">
                 <pre>
@@ -304,14 +302,14 @@
             </div>
 
             <!--<div class="validation-details">
-              VALIDATION DETAILS
+              Validations
             </div>-->
 
             <div class="validation-details-body">
               <div class="validation-details-left-table">
                 <div class="validation-details-table-header">
-                  <div class="field validation-details-body-table-header">FIELD</div>
-                  <div class="validation validation-details-body-table-header">VALIDATION</div>
+                  <div class="field validation-details-body-table-header">Field</div>
+                  <div class="validation validation-details-body-table-header">Validation</div>
                 </div>              
                 <div class="validation-details-table-body">
                   <div class="field validation-details-body-table-body">Field</div>
@@ -329,8 +327,8 @@
 
               <div class="validation-details-right-table">
                 <div class="validation-details-table-header">
-                  <div class="field validation-details-body-table-header">FIELD</div>
-                  <div class="validation validation-details-body-table-header">VALIDATION</div>
+                  <div class="field validation-details-body-table-header">Field</div>
+                  <div class="validation validation-details-body-table-header">Validation</div>
                 </div>              
                 <div class="validation-details-table-body">
                   <div class="field validation-details-body-table-body">Field</div>
