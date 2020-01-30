@@ -31,5 +31,7 @@ public interface UserRepository extends JpaRepository<UserDetails, Long> {
 	//https://javadeveloperzone.com/spring/spring-jpa-query-in-clause-example/
 	@Query("SELECT a FROM UserDetails a WHERE a.userDetailsId IN (:userDetailsIds)")
 	List<UserDetails> findByUserDetailsIds(@Param("userDetailsIds")List<Long> userDetailsIds);
-
+	
+	@Query("SELECT a FROM UserDetails a WHERE a.email = :email")
+	List<UserDetails> getUserByEmail(@Param("email") String email);
 }

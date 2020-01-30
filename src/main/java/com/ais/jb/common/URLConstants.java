@@ -41,6 +41,7 @@ public class URLConstants {
 	
 	public class Resume {
 		public static final String API_BASE = "/api/resume";
+		public static final String SAVE_CANDIDATE_PROFILE = "/save/profile/candidate";
 		public static final String BUILD_CANDIDATE_RESUME = "/build/candidate";
 
 	}

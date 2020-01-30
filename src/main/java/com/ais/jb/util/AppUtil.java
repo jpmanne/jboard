@@ -1,7 +1,6 @@
 package com.ais.jb.util;
 
 import java.util.List;
-
 import com.ais.jb.dao.model.UserDetails;
 
 public class AppUtil {
