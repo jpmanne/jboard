@@ -40,16 +40,16 @@ public class BuildCandidateResumeRequest implements Serializable {
 	private MilitaryServiceDetails militaryServiceDetails;
 	
 	//Awards / Achievements Details
-	List<AwardsOrAchievementsDetails> awardsOrAchievements;
+	private List<AwardsOrAchievementsDetails> awardsOrAchievements;
 	
 	//Certifications and Licenses Details
-	List<CertificationsAndLicensesDetails> certificationsAndLinceses;
+	private List<CertificationsAndLicensesDetails> certificationsAndLinceses;
 	
 	//Non-Profit Student Organizations Details
-	List<NonProfitStudentOrganizationsDetails> nonProfitStudentOrganizations;
+	private List<NonProfitStudentOrganizationsDetails> nonProfitStudentOrganizations;
 	
 	//Projects / Papers Presented Details
-	List<ProjectsOrPapersPresentedDetails> projectsOrPapersPresented;
+	private List<ProjectsOrPapersPresentedDetails> projectsOrPapersPresented;
 
 	public String getHeadLine() {
 		return headLine;

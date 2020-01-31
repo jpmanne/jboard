@@ -31,6 +31,7 @@ import com.ais.jb.request.model.LoginRequest;
 import com.ais.jb.request.model.LogoutRequest;
 import com.ais.jb.response.model.LoginResponse;
 import com.ais.jb.util.AuthCodeGenerator;
+import com.ais.jb.util.PasswordEncy;
 
 @RestController
 @RequestMapping(URLConstants.Login.API_BASE)
@@ -55,7 +56,7 @@ public class LoginController extends BaseController {
 		
 		try {
 			// Getting the user with the userName and password
-			List<UserDetails> users = userRepository.getUserByEmailAndPassword(loginRequest.getEmail(), loginRequest.getPassword());
+			List<UserDetails> users = userRepository.getUserByEmailAndPassword(loginRequest.getEmail(), PasswordEncy.getInstance().encrypt(loginRequest.getPassword()));
 			
 			if(users != null && !users.isEmpty()) {
 				if(users.size() > 1) {
