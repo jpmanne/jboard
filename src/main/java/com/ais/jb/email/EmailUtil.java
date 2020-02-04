@@ -21,6 +21,8 @@ import javax.mail.internet.MimeMultipart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.ais.jb.common.Constants;
+
 public class EmailUtil {
 	private static final Logger LOGGER = LoggerFactory.getLogger(EmailUtil.class);
 	
@@ -161,6 +163,34 @@ public class EmailUtil {
 		LOGGER.info(logTag + " START of the method");
 	}
 	
+	// ========================================================================
+	
+	public EmailDetails populateCandidateCredenitalsMail(String firstName, String lastName, String email, String password) {
+		EmailDetails emailDetails = new EmailDetails();
+		emailDetails.setSubject("Job Board access credentials");
+		StringBuffer messageContentStringBuffer = new StringBuffer();
+		messageContentStringBuffer.append("Hi "+firstName + " " + lastName + ",");
+		messageContentStringBuffer.append(Constants.LINE_SEPERATOR);
+		messageContentStringBuffer.append("Below are the credentials to access your Job Board account.");
+		messageContentStringBuffer.append(Constants.LINE_SEPERATOR);
+		messageContentStringBuffer.append("Username : "+email);
+		messageContentStringBuffer.append(Constants.LINE_SEPERATOR);
+		messageContentStringBuffer.append("Password : "+password);
+		messageContentStringBuffer.append(Constants.LINE_SEPERATOR);
+		messageContentStringBuffer.append(Constants.LINE_SEPERATOR);
+		messageContentStringBuffer.append("Thanks & Regards");
+		messageContentStringBuffer.append(Constants.LINE_SEPERATOR);
+		messageContentStringBuffer.append("Job Board");
+		messageContentStringBuffer.append(Constants.LINE_SEPERATOR);
+		messageContentStringBuffer.append(Constants.LINE_SEPERATOR);
+		messageContentStringBuffer.append("This is an auto generated email. Please do not reply to this email.");
+		emailDetails.setMessageContent(messageContentStringBuffer.toString());
+		String[] toRecipients = new String[1];
+		toRecipients[0] = email;
+		emailDetails.setToRecipients(toRecipients);
+		
+		return emailDetails;
+	}
 	// ========================================================================
 	
 }
