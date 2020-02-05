@@ -5,8 +5,10 @@
 */
 package com.ais.jb.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -15,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -54,6 +57,14 @@ import com.ais.jb.repository.WorkExperienceDetailsRepository;
 import com.ais.jb.request.model.BuildCandidateResumeRequest;
 import com.ais.jb.request.model.SaveCandidateProfileRequest;
 import com.ais.jb.response.model.CandidateProfileResponse;
+import com.ais.jb.response.model.GetResumeDetailsResponse;
+import com.ais.jb.response.model.WebAwardsOrAchievementsDetails;
+import com.ais.jb.response.model.WebCertificationsAndLicensesDetails;
+import com.ais.jb.response.model.WebEducationDetails;
+import com.ais.jb.response.model.WebNonProfitStudentOrganizationsDetails;
+import com.ais.jb.response.model.WebProjectsOrPapersPresentedDetails;
+import com.ais.jb.response.model.WebSkillDetails;
+import com.ais.jb.response.model.WebWorkExperienceDetails;
 import com.ais.jb.util.AppUtil;
 import com.ais.jb.util.AuthCodeGenerator;
 import com.ais.jb.util.PasswordEncy;
@@ -184,7 +195,7 @@ public class ResumeController extends BaseController {
 		List<EducationDetails> educations;
 		List<SkillDetails> skills;
 		List<AwardsOrAchievementsDetails> awardsOrAchievements;
-		List<CertificationsAndLicensesDetails> certificationsAndLinceses;
+		List<CertificationsAndLicensesDetails> certificationsAndLincenses;
 		List<NonProfitStudentOrganizationsDetails> nonProfitStudentOrganizations;
 		List<ProjectsOrPapersPresentedDetails> projectsOrPapersPresented;
 		OnlineProfileDetails onlineProfileDetails;
@@ -206,7 +217,7 @@ public class ResumeController extends BaseController {
 					educations = buildCandidateResumeRequest.getEducations();
 					skills = buildCandidateResumeRequest.getSkills();
 					awardsOrAchievements = buildCandidateResumeRequest.getAwardsOrAchievements();
-					certificationsAndLinceses = buildCandidateResumeRequest.getCertificationsAndLinceses();
+					certificationsAndLincenses = buildCandidateResumeRequest.getCertificationsAndLinceses();
 					nonProfitStudentOrganizations = buildCandidateResumeRequest.getNonProfitStudentOrganizations();
 					projectsOrPapersPresented = buildCandidateResumeRequest.getProjectsOrPapersPresented();
 					
@@ -260,15 +271,15 @@ public class ResumeController extends BaseController {
 						saveCount++;
 					}
 					
-					if(certificationsAndLinceses != null && !certificationsAndLinceses.isEmpty()) {
-						for(CertificationsAndLicensesDetails details : certificationsAndLinceses) {
+					if(certificationsAndLincenses != null && !certificationsAndLincenses.isEmpty()) {
+						for(CertificationsAndLicensesDetails details : certificationsAndLincenses) {
 							String validationResult = validationUtil.validateCertificationsAndLicensesDetails(details);
 							if(!Constants.SUCCESS.equalsIgnoreCase(validationResult)) {
 								return getInvalidDataResponseEntity(validationResult);
 							}
 							details.setUserDetails(userDetails);
 						}
-						certificationsRepository.saveAll(certificationsAndLinceses);
+						certificationsRepository.saveAll(certificationsAndLincenses);
 						saveCount++;
 					}
 					
@@ -337,5 +348,146 @@ public class ResumeController extends BaseController {
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
 	
+	//=========================================================================
+	
+	@GetMapping(URLConstants.Resume.GET_RESUME_DETAILS)
+	public ResponseEntity<Response> getResumeDetails(@RequestParam("authCode") String authCode) throws JBoradException {
+		String logTag = "getResumeDetails() :";
+		LOGGER.info(AppUtil.getStartMethodMessage(logTag));
+		AuthorizationDetails authorizationDetails = null;
+		Response response = null;
+		UserDetails userDetails = null;
+		Optional<ResumeDetails> resumeDetails;
+		List<WorkExperienceDetails> workExperiences;
+		List<EducationDetails> educations;
+		List<SkillDetails> skills;
+		List<AwardsOrAchievementsDetails> awardsOrAchievements;
+		List<CertificationsAndLicensesDetails> certificationsAndLincenses;
+		List<NonProfitStudentOrganizationsDetails> nonProfitStudentOrganizations;
+		List<ProjectsOrPapersPresentedDetails> projectsOrPapersPresented;
+		Optional<OnlineProfileDetails> onlineProfileDetails;
+		Optional<MilitaryServiceDetails> militaryServiceDetails;
+		Long userDetailsId = null;
+		GetResumeDetailsResponse resumeDetailsResponse = null;
+		
+		try {
+			authorizationDetails = validateAuthorization(authCode);
+			
+			if(authorizationDetails.isValidAuthCode()) {
+				if(authorizationDetails.isValidAccess()) {
+					resumeDetailsResponse = new GetResumeDetailsResponse();
+					userDetailsId = authorizationDetails.getUserDetailsId();
+					userDetails = userRepository.findByUserDetailsId(userDetailsId);
+					
+					if(userDetails != null) {
+						resumeDetailsResponse.setAuthCode(authCode);
+						resumeDetailsResponse.setEmail(userDetails.getEmail());
+						resumeDetailsResponse.setName(userDetails.getFirstName());
+						resumeDetailsResponse.setLastName(userDetails.getLastName());
+						resumeDetailsResponse.setPhoneNumber(userDetails.getPhoneNumber());
+						
+						resumeDetails = resumeRepository.findById(userDetailsId);
+						if(resumeDetails.isPresent()) {
+							ResumeDetails rd = resumeDetails.get();
+							resumeDetailsResponse.setResumeCode(rd.getResumeCode()); 
+							resumeDetailsResponse.setHeadLine(rd.getHeadLine());
+							resumeDetailsResponse.setObjective(rd.getObjective());
+							resumeDetailsResponse.setCity(rd.getCity());
+							resumeDetailsResponse.setState(rd.getState());
+							resumeDetailsResponse.setCountry(rd.getCountry());
+							resumeDetailsResponse.setPinCode(rd.getPinCode());
+							resumeDetailsResponse.setRelocate(rd.getRelocation());
+						}
+						workExperiences = workExperienceDetailsRepository.getWorkExperiences(userDetailsId);
+						if(workExperiences != null && !workExperiences.isEmpty()) {
+							List<WebWorkExperienceDetails> webWorkExperiences = new ArrayList<WebWorkExperienceDetails>();
+							for (WorkExperienceDetails wd : workExperiences) { 
+								webWorkExperiences.add(wd.getWebWorkExperienceDetails());
+							}
+							resumeDetailsResponse.setWorkExperiences(webWorkExperiences);
+						}
+						
+						educations = educationDetailsRepository.getEducations(userDetailsId);
+						if(educations != null && !educations.isEmpty()) {
+							List<WebEducationDetails> webEducations = new ArrayList<WebEducationDetails>();
+							for (EducationDetails a : educations) { 
+								webEducations.add(a.getWebEducationDetails());
+							}
+							resumeDetailsResponse.setEducations(webEducations);
+						}
+						
+						
+						skills = skillDetailsRepository.getSkills(userDetailsId);
+						if(skills != null && !skills.isEmpty()) {
+							List<WebSkillDetails> webSkills = new ArrayList<WebSkillDetails>();
+							for (SkillDetails a : skills) { 
+								webSkills.add(a.getWebSkillDetails());
+							}
+							resumeDetailsResponse.setSkills(webSkills);
+						}
+						
+						awardsOrAchievements = awardsOrAchiementsDetailsRepository.getAwardsOrAchievements(userDetailsId);
+						if(awardsOrAchievements != null && !awardsOrAchievements.isEmpty()) {
+							List<WebAwardsOrAchievementsDetails> webAwardsOrAchievements = new ArrayList<WebAwardsOrAchievementsDetails>();
+							for (AwardsOrAchievementsDetails a : awardsOrAchievements) { 
+								webAwardsOrAchievements.add(a.getWebAwardsOrAchievementsDetails());
+							}
+							resumeDetailsResponse.setAwardsOrAchievements(webAwardsOrAchievements);
+						}
+						
+						certificationsAndLincenses = certificationsRepository.getCertifications(userDetailsId);
+						if(certificationsAndLincenses != null && !certificationsAndLincenses.isEmpty()) {
+							List<WebCertificationsAndLicensesDetails> webCertificationsAndLincenses = new ArrayList<WebCertificationsAndLicensesDetails>();
+							for (CertificationsAndLicensesDetails a : certificationsAndLincenses) { 
+								webCertificationsAndLincenses.add(a.getWebCertificationsAndLicensesDetails());
+							}
+							resumeDetailsResponse.setCertificationsAndLincenses(webCertificationsAndLincenses);
+						}
+						
+						nonProfitStudentOrganizations = studentOrganizationsRepository.getNonProfitStudentOrganizations(userDetailsId);
+						if(nonProfitStudentOrganizations != null && !nonProfitStudentOrganizations.isEmpty()) {
+							List<WebNonProfitStudentOrganizationsDetails> webNonProfitStudentOrganizations = new ArrayList<WebNonProfitStudentOrganizationsDetails>();
+							for (NonProfitStudentOrganizationsDetails a : nonProfitStudentOrganizations) { 
+								webNonProfitStudentOrganizations.add(a.getWebNonProfitStudentOrganizationsDetails());
+							}
+							resumeDetailsResponse.setNonProfitStudentOrganizations(webNonProfitStudentOrganizations);
+						}
+						
+						projectsOrPapersPresented = projectsRepository.getProjects(userDetailsId);
+						if(projectsOrPapersPresented != null && !projectsOrPapersPresented.isEmpty()) {
+							List<WebProjectsOrPapersPresentedDetails> webProjectsOrPapersPresented = new ArrayList<WebProjectsOrPapersPresentedDetails>();
+							for (ProjectsOrPapersPresentedDetails a : projectsOrPapersPresented) { 
+								webProjectsOrPapersPresented.add(a.getWebProjectsOrPapersPresentedDetails());
+							}
+							resumeDetailsResponse.setProjectsOrPapersPresented(webProjectsOrPapersPresented); 
+						}
+						
+						onlineProfileDetails = onlineProfileDetailsRepository.findById(userDetailsId);
+						if(onlineProfileDetails.isPresent()) {
+							resumeDetailsResponse.setOnlineProfileDetails(onlineProfileDetails.get().getWebOnlineProfileDetails());
+						}
+
+						militaryServiceDetails = militaryServiceDetailsRepository.findById(userDetailsId);
+						if(militaryServiceDetails.isPresent()) {
+							resumeDetailsResponse.setMilitaryServiceDetails(militaryServiceDetails.get().getWebMilitaryServiceDetails());
+						}
+					}
+					response = new Response("Resume Details", resumeDetailsResponse);
+				} else {
+					LOGGER.info(logTag + "Unauthorized Access : "+authCode);
+					return new ResponseEntity<Response>(getUnAuthorizedAccessRespose(), HttpStatus.UNAUTHORIZED);
+				}
+			} else {
+				response = getInvalidAuthCodeRespose(authCode);
+				LOGGER.info(logTag + "Invalid AuthCode : "+authCode);
+			}
+		} catch (Exception e) {
+			String exceptionMessage = logTag + "Exception while retrieving the candidate resume details";
+			handleException(LOGGER, logTag, exceptionMessage, e, authorizationDetails); 
+		}
+		LOGGER.info(AppUtil.getEndMethodMessage(logTag));
+		return new ResponseEntity<Response>(response, HttpStatus.OK);
+	}
+
 	//=========================================================================
 }

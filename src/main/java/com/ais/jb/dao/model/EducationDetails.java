@@ -17,6 +17,8 @@ import javax.persistence.Table;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.ais.jb.response.model.WebEducationDetails;
+
 @Entity
 @Table(name = "education_details")
 @EntityListeners(AuditingEntityListener.class)
@@ -110,5 +112,17 @@ public class EducationDetails {
 
 	public void setUserDetails(UserDetails userDetails) {
 		this.userDetails = userDetails;
+	}
+	
+	public WebEducationDetails getWebEducationDetails() {
+		WebEducationDetails details = new WebEducationDetails();
+		details.setEducationDetailsId(educationDetailsId);
+		details.setDegree(degree);
+		details.setCollegeOrUniversity(collegeOrUniversity);
+		details.setFieldOfStudy(fieldOfStudy);
+		details.setCity(city);
+		details.setTimePeriodFrom(timePeriodFrom);
+		details.setTimePeriodTo(timePeriodTo); 
+		return details;
 	}
 }

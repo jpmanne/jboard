@@ -17,6 +17,8 @@ import javax.persistence.Table;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.ais.jb.response.model.WebSkillDetails;
+
 @Entity
 @Table(name = "skill_details")
 @EntityListeners(AuditingEntityListener.class)
@@ -66,5 +68,13 @@ public class SkillDetails {
 
 	public void setUserDetails(UserDetails userDetails) {
 		this.userDetails = userDetails;
+	}
+	
+	public WebSkillDetails getWebSkillDetails() {
+		WebSkillDetails details = new WebSkillDetails();
+		details.setSkillDetailsId(skillDetailsId);
+		details.setSkill(skill);
+		details.setExperience(experience);
+		return details;
 	}
 }

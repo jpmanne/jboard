@@ -17,6 +17,8 @@ import javax.persistence.Table;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.ais.jb.response.model.WebWorkExperienceDetails;
+
 @Entity
 @Table(name = "work_experience_details")
 @EntityListeners(AuditingEntityListener.class)
@@ -110,5 +112,17 @@ public class WorkExperienceDetails {
 
 	public void setUserDetails(UserDetails userDetails) {
 		this.userDetails = userDetails;
+	}
+	
+	public WebWorkExperienceDetails getWebWorkExperienceDetails() {
+		WebWorkExperienceDetails details = new WebWorkExperienceDetails();
+		details.setWorkExperienceDetailsId(workExperienceDetailsId);
+		details.setJobTitle(jobTitle);
+		details.setCompany(company);
+		details.setCity(city);
+		details.setDescription(description);
+		details.setTimePeriodFrom(timePeriodFrom);
+		details.setTimePeriodTo(timePeriodTo);
+		return details;
 	}
 }

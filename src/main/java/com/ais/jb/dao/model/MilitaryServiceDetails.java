@@ -17,6 +17,8 @@ import javax.persistence.Table;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.ais.jb.response.model.WebMilitaryServiceDetails;
+
 @Entity
 @Table(name = "military_service_details")
 @EntityListeners(AuditingEntityListener.class)
@@ -121,5 +123,18 @@ public class MilitaryServiceDetails {
 
 	public void setUserDetails(UserDetails userDetails) {
 		this.userDetails = userDetails;
+	}
+	
+	public WebMilitaryServiceDetails getWebMilitaryServiceDetails() {
+		WebMilitaryServiceDetails details = new WebMilitaryServiceDetails();
+		details.setMilitaryServiceDetailsId(militaryServiceDetailsId);
+		details.setServiceCountry(serviceCountry);
+		details.setBranch(branch);
+		details.setRank(rank);
+		details.setDescription(description);
+		details.setCommendations(commendations);
+		details.setTimePeriodFrom(timePeriodFrom);
+		details.setTimePeriodTo(timePeriodTo);
+		return details;
 	}
 }

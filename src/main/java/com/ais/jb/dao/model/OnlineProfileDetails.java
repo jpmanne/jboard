@@ -17,6 +17,8 @@ import javax.persistence.Table;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.ais.jb.response.model.WebOnlineProfileDetails;
+
 @Entity
 @Table(name = "online_profile_details")
 @EntityListeners(AuditingEntityListener.class)
@@ -55,5 +57,12 @@ public class OnlineProfileDetails {
 
 	public void setUserDetails(UserDetails userDetails) {
 		this.userDetails = userDetails;
+	}
+	
+	public WebOnlineProfileDetails getWebOnlineProfileDetails() {
+		WebOnlineProfileDetails details = new WebOnlineProfileDetails();
+		details.setOnlineProfileDetailsId(onlineProfileDetailsId);
+		details.setLinkAddress(linkAddress);
+		return details;
 	}
 }

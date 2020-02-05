@@ -17,6 +17,8 @@ import javax.persistence.Table;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.ais.jb.response.model.WebAwardsOrAchievementsDetails;
+
 @Entity
 @Table(name = "awards_achievements_details")
 @EntityListeners(AuditingEntityListener.class)
@@ -77,5 +79,14 @@ public class AwardsOrAchievementsDetails {
 
 	public void setUserDetails(UserDetails userDetails) {
 		this.userDetails = userDetails;
+	}
+	
+	public WebAwardsOrAchievementsDetails getWebAwardsOrAchievementsDetails() {
+		WebAwardsOrAchievementsDetails details = new WebAwardsOrAchievementsDetails();
+		details.setAwardsOrAchievementsDetailsId(awardsOrAchievementsDetailsId);
+		details.setTitle(title);
+		details.setDateAwarded(dateAwarded);
+		details.setDescription(description);
+		return details;
 	}
 }

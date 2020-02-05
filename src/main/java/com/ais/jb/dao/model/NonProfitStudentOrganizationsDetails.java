@@ -17,6 +17,8 @@ import javax.persistence.Table;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.ais.jb.response.model.WebNonProfitStudentOrganizationsDetails;
+
 @Entity
 @Table(name = "non_profit_student_organizations_details")
 @EntityListeners(AuditingEntityListener.class)
@@ -88,5 +90,15 @@ public class NonProfitStudentOrganizationsDetails {
 
 	public void setUserDetails(UserDetails userDetails) {
 		this.userDetails = userDetails;
+	}
+	
+	public WebNonProfitStudentOrganizationsDetails getWebNonProfitStudentOrganizationsDetails() {
+		WebNonProfitStudentOrganizationsDetails details = new WebNonProfitStudentOrganizationsDetails();
+		details.setNonProfitStudentOrganizationsDetailsId(nonProfitStudentOrganizationsDetailsId);
+		details.setTitle(title);
+		details.setDescription(description);
+		details.setTimePeriodFrom(timePeriodFrom);
+		details.setTimePeriodTo(timePeriodTo);
+		return details;
 	}
 }

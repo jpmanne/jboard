@@ -17,6 +17,8 @@ import javax.persistence.Table;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.ais.jb.response.model.WebCertificationsAndLicensesDetails;
+
 @Entity
 @Table(name = "certifications_and_licenses_details")
 @EntityListeners(AuditingEntityListener.class)
@@ -88,5 +90,15 @@ public class CertificationsAndLicensesDetails {
 
 	public void setUserDetails(UserDetails userDetails) {
 		this.userDetails = userDetails;
+	}
+	
+	public WebCertificationsAndLicensesDetails getWebCertificationsAndLicensesDetails() {
+		WebCertificationsAndLicensesDetails details = new WebCertificationsAndLicensesDetails();
+		details.setCertificationsAndLicensesDetailsId(certificationsAndLicensesDetailsId);
+		details.setTitle(title);
+		details.setDescription(description);
+		details.setTimePeriodFrom(timePeriodFrom);
+		details.setTimePeriodTo(timePeriodTo);
+		return details;
 	}
 }

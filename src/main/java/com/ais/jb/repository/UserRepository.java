@@ -34,4 +34,8 @@ public interface UserRepository extends JpaRepository<UserDetails, Long> {
 	
 	@Query("SELECT a FROM UserDetails a WHERE a.email = :email")
 	List<UserDetails> getUserByEmail(@Param("email") String email);
+	
+	@Query("select u from UserDetails u where u.userDetailsId = ?1")
+	UserDetails findByUserDetailsId(Long userDetailsId);
+	
 }
