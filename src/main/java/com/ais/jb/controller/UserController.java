@@ -33,6 +33,7 @@ import com.ais.jb.model.AuthorizationDetails;
 import com.ais.jb.model.Response;
 import com.ais.jb.repository.UserRepository;
 import com.ais.jb.response.model.WebUserDetails;
+import com.ais.jb.util.AppUtil;
 
 @RestController
 @RequestMapping(URLConstants.User.API_BASE)
@@ -43,11 +44,36 @@ public class UserController extends BaseController {
 	UserRepository userRepository;
 
 	//=========================================================================
+
+	@GetMapping(URLConstants.User.IS_EMAIL_EXISTS)
+	public ResponseEntity<Response> isEmailExists(@RequestParam("email") String email) throws JBoradException {
+		String logTag = "isEmailExists() :";
+		LOGGER.info(AppUtil.getStartMethodMessage(logTag));
+		Response response = null;
+		List<UserDetails> existingUsers = null;
+		
+		try {
+			existingUsers = userRepository.getUserByEmail(email.toLowerCase());
+			
+			if(existingUsers != null && existingUsers.size() > 0) {
+				response = new Response("Email already exists.", null);
+			} else {
+				response = new Response("Email available.", null);
+			}
+		} catch (Exception e) {
+			String exceptionMessage = logTag + "Exception while isEmailExists";
+			handleException(LOGGER, logTag, exceptionMessage, e, null); 
+		}
+		LOGGER.info(AppUtil.getEndMethodMessage(logTag));
+		return new ResponseEntity<Response>(response, HttpStatus.OK);
+	}
+
+	//=========================================================================
 	
 	@GetMapping(URLConstants.User.GET_ALL_USERS)
 	public ResponseEntity<Response> getAllUsers(@RequestParam("authCode") String authCode) throws JBoradException {
 		String logTag = "getAllUsers() :";
-		LOGGER.info(logTag + "START of the method");
+		LOGGER.info(AppUtil.getStartMethodMessage(logTag));
 		AuthorizationDetails authorizationDetails = null;
 		List<UserDetails> users = null; 
 		Response response = null;
@@ -79,7 +105,7 @@ public class UserController extends BaseController {
 			String exceptionMessage = logTag + "Exception while retrieving all the users";
 			handleException(LOGGER, logTag, exceptionMessage, e, authorizationDetails); 
 		}
-		LOGGER.info(logTag + "END of the method");
+		LOGGER.info(AppUtil.getEndMethodMessage(logTag));
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
 
@@ -88,7 +114,7 @@ public class UserController extends BaseController {
 	@PostMapping(URLConstants.User.ADD_USER)
 	public ResponseEntity<Response> addUser(@Valid @RequestBody UserDetails userDetails, @RequestParam("authCode") String authCode) throws JBoradException {
 		String logTag = "addUser() :";
-		LOGGER.info(logTag + "START of the method");
+		LOGGER.info(AppUtil.getStartMethodMessage(logTag));
 		AuthorizationDetails authorizationDetails = null;
 		Response response = null;
 		
@@ -115,7 +141,7 @@ public class UserController extends BaseController {
 			String exceptionMessage = logTag + "Exception while adding the user ";
 			handleException(LOGGER, logTag, exceptionMessage, e, authorizationDetails);
 		}
-		LOGGER.info(logTag + "END of the method");
+		LOGGER.info(AppUtil.getEndMethodMessage(logTag));
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
 	
@@ -124,7 +150,7 @@ public class UserController extends BaseController {
 	@GetMapping(URLConstants.User.GET_USER)
 	public ResponseEntity<Response> getUserById(@PathVariable(value = "userDetailsId") Long userDetailsId, @RequestParam("authCode") String authCode) throws JBoradException {
 		String logTag = "getUserById() :";
-		LOGGER.info(logTag + "START of the method");
+		LOGGER.info(AppUtil.getStartMethodMessage(logTag));
 		AuthorizationDetails authorizationDetails = null;
 		Response response = null;
 		
@@ -153,7 +179,7 @@ public class UserController extends BaseController {
 			String exceptionMessage = logTag + "Exception while retrieving the user, "+userDetailsId;
 			handleException(LOGGER, logTag, exceptionMessage, e, authorizationDetails);
 		}
-		LOGGER.info(logTag + "END of the method");
+		LOGGER.info(AppUtil.getEndMethodMessage(logTag));
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
 	
@@ -162,7 +188,7 @@ public class UserController extends BaseController {
 	@PutMapping(URLConstants.User.UPDATE_USER)
 	public ResponseEntity<Response> updateUser(@PathVariable(value = "userDetailsId") Long userDetailsId, @Valid @RequestBody UserDetails userDetails, @RequestParam("authCode") String authCode) throws JBoradException {
 		String logTag = "updateUser() :";
-		LOGGER.info(logTag + "START of the method");
+		LOGGER.info(AppUtil.getStartMethodMessage(logTag));
 		AuthorizationDetails authorizationDetails = null;
 		Response response = null;
 		
@@ -202,7 +228,7 @@ public class UserController extends BaseController {
 			String exceptionMessage = logTag + "Exception while updating the user, "+userDetailsId;
 			handleException(LOGGER, logTag, exceptionMessage, e, authorizationDetails);
 		}
-		LOGGER.info(logTag + "END of the method");
+		LOGGER.info(AppUtil.getEndMethodMessage(logTag));
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
 
@@ -211,7 +237,7 @@ public class UserController extends BaseController {
 	@DeleteMapping(URLConstants.User.DELETE_USER)
 	public ResponseEntity<Response> deleteUser(@PathVariable(value = "userDetailsId") Long userDetailsId, @RequestParam("authCode") String authCode) throws JBoradException {
 		String logTag = "getUserById() :";
-		LOGGER.info(logTag + "START of the method");
+		LOGGER.info(AppUtil.getStartMethodMessage(logTag));
 		AuthorizationDetails authorizationDetails = null;
 		Response response = null;
 		
@@ -241,7 +267,7 @@ public class UserController extends BaseController {
 			String exceptionMessage = logTag + "Exception while deleting the user "+userDetailsId;
 			handleException(LOGGER, logTag, exceptionMessage, e, authorizationDetails);
 		}
-		LOGGER.info(logTag + "END of the method");
+		LOGGER.info(AppUtil.getEndMethodMessage(logTag));
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
 	

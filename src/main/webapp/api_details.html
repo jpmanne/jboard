@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<title>API Details</title>
+<style>
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+html {
+	height: calc(100% - 16px);
+}
+
+body {
+	font-family: 'Open Sans', serif;
+	height: calc(100% - 50px);
+}
+
+.header {
+	width: 100%;
+	height: 50px;
+	/*background-color: #53b5aa;*/
+	background-color: #313131;
+	border-bottom: 1px solid #dacfcf;
+}
+
+.container {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	height: 100%;
+}
+
+.menu-section {
+	width: 20%;
+	/* min-height: 100%; */
+	overflow-y: auto;
+}
+
+.content-section {
+	width: 80%;
+	background-color: #ffffff;
+	/* min-height: 100%; */
+	overflow-y: auto;
+}
+
+h3.api {
+	padding-right: 10px;
+}
+
+ul.menu-items {
+	list-style-type: none;
+	padding: 0px;
+	background-color: #e6e2e2;
+	margin: 0px;
+}
+
+ul.menu-items li.list-item {
+	padding: 10px 10px;
+	font-size: 14px;
+	cursor: pointer;
+}
+
+ul.menu-items li:hover {
+	background-color: #cccdce;
+}
+
+ul.menu-items li.active {
+	background-color: #cccdce;
+}
+
+ul.menu-items li {
+	border-bottom: 1px solid #dacfcf;
+}
+
+.content-section-body {
+	/* visibility: hidden; */
+	display: none;
+	/* position: absolute; */
+}
+
+.description-of-service {
+	/*border: 1px solid #dacfcf;*/
+	border: 1px solid #dacfcf;
+	margin: 20px 0px 0px 20px;
+	padding: 10px;
+	font-size: 14px;
+	background-color: #f1f0f0;
+}
+
+.method-content-type-url-table {
+	border: 1px solid #dacfcf;
+	margin: 20px 0px 0px 20px;
+	display: flex;
+	flex-direction: column;
+}
+
+.method-content-type-url-table-content {
+	border-bottom: 1px solid #dacfcf;
+	margin: 0px;
+	display: flex;
+	flex-direction: row;
+}
+
+.method-content-type-url-table-content:last-child {
+	border-bottom: 0px;
+}
+
+.method.table-header, .method.body {
+	width: 20%;
+}
+
+.method.table-header {
+	text-align: center;
+	font-weight: bold;
+	font-size: 13px;
+	background-color: lightgrey;
+}
+
+.method.body {
+	font-size: 14px;
+	text-align: center;
+}
+
+.content-type.table-header, .content-type.body {
+	width: 30%;
+	border-left: 1px solid #dacfcf;
+	border-right: 1px solid #dacfcf;
+}
+
+.content-type.table-header {
+	text-align: center;
+	font-weight: bold;
+	font-size: 13px;
+	background-color: lightgrey;
+}
+
+.content-type.body {
+	font-size: 14px;
+	text-align: center;
+}
+
+.url.table-header, .url.body {
+	width: 50%;
+}
+
+.url.table-header {
+	text-align: center;
+	font-weight: bold;
+	font-size: 13px;
+	background-color: lightgrey;
+}
+
+.url.body {
+	font-size: 14px;
+	text-align: center;
+}
+
+.request-object {
+	border: 1px solid #dacfcf;
+	margin: 20px 0px 20px 20px;
+}
+
+.request-object-header {
+	text-align: center;
+	font-weight: bold;
+	font-size: 13px;
+	background-color: lightgrey;
+}
+
+.request-object-body {
+	border-top: 1px solid #dacfcf;
+	font-size: 14px;
+	background-color: #f1f1f1;
+	min-height: 30px;
+}
+
+.validation-details {
+	text-align: center;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.validation-details-body {
+	display: flex;
+	flex-direction: row;
+}
+
+.validation-details-left-table {
+	border: 1px solid #dacfcf;
+	margin: 20px 10px 20px 20px;
+	width: 50%;
+}
+
+.validation-details-right-table {
+	border: 1px solid #dacfcf;
+	margin: 20px 0px 20px 0px;
+	width: 50%;
+}
+
+.validation-details-table-header {
+	border-bottom: 1px solid #dacfcf;
+	text-align: center;
+	font-weight: bold;
+	font-size: 13px;
+	background-color: lightgrey;
+	display: flex;
+	flex-direction: row;
+}
+
+.validation-details-table-body {
+	border-bottom: 1px solid #dacfcf;
+	font-size: 14px;
+	display: flex;
+	flex-direction: row;
+}
+
+.validation-details-table-body:last-child {
+	border-bottom: 0px solid #000000;
+}
+
+.field.validation-details-body-table-header, .field.validation-details-body-table-body
+	{
+	width: 40%;
+	border-right: 1px solid #dacfcf;
+}
+
+.header-align {
+	font-size: 30px;
+	margin-left: 1%;
+	color: #ffffff;
+}
+</style>
+</head>
+<body>
+	<div class="header">
+		<span class="header-align">JB API</span>
+
+	</div>
+	<div class="container">
+		<div class="menu-section">
+			<ul class="menu-items">
+				<li class="list-item" onClick="showContent(login, this)">Login</li>
+				<li class="list-item" onClick="showContent(save_candidate_profile, this)">Save Candidate Profile</li>
+			</ul>
+		</div>
+		<div class="content-section">
+			
+			<!-- ==================================== LOGIN  ====================================-->
+			<div class="content-section-body" id="login">
+				<div class="description-of-service">Description of the service: Login to the application.</div>
+				<div class="method-content-type-url-table">
+					<div class="method-content-type-url-table-content">
+						<div class="method table-header">Method</div>
+						<div class="content-type table-header">Content Type</div>
+						<div class="url table-header">URL</div>
+					</div>
+					<div class="method-content-type-url-table-content">
+						<div class="method body">POST</div>
+						<div class="content-type body">application/json</div>
+						<div class="url body">/api/user/login</div>
+					</div>
+				</div>
+
+				<div class="request-object">
+					<div class="request-object-header">Request Object</div>
+					<div class="request-object-body">
+						<pre>
+		                  {
+		                    "userName": "username1",
+		                    "password": "password1"
+		                  }
+		                </pre>
+					</div>
+				</div>
+
+				<div class="request-object">
+					<div class="request-object-header">Response Object</div>
+					<div class="request-object-body">
+						<pre>
+		                  {
+		                    "status": 200
+		                  }
+		                </pre>
+					</div>
+				</div>
+				<div class="method-content-type-url-table">
+					<div class="method-content-type-url-table-content">
+						<div class="method table-header">Field</div>
+						<div class="content-type table-header">Is Mandatory</div>
+						<div class="url table-header">Max Length</div>
+					</div>
+					<div class="method-content-type-url-table-content">
+						<div class="method body">userName</div>
+						<div class="content-type body">true</div>
+						<div class="url body">150</div>
+					</div>
+					<div class="method-content-type-url-table-content">
+						<div class="method body">passowrd</div>
+						<div class="content-type body">true</div>
+						<div class="url body">30</div>
+					</div>
+				</div>
+			</div>
+			
+			
+			<!-- ==================================== Save Candidate Profile  ====================================-->
+			<div class="content-section-body" id="save_candidate_profile">
+				<div class="description-of-service">This service is to save the candidate profile.</div>
+				<div class="method-content-type-url-table">
+					<div class="method-content-type-url-table-content">
+						<div class="method table-header">Method</div>
+						<div class="content-type table-header">Content Type</div>
+						<div class="url table-header">URL</div>
+					</div>
+					<div class="method-content-type-url-table-content">
+						<div class="method body">POST</div>
+						<div class="content-type body">application/json</div>
+						<div class="url body">/api/resume/save/profile/candidate</div>
+					</div>
+				</div>
+
+				<div class="request-object">
+					<div class="request-object-header">Request Object</div>
+					<div class="request-object-body">
+						<pre>
+		                  {
+					"email": "jayaprakash.manne@gmail.com",
+					"name": "Jaya Prakash",
+					"lastName": "Manne",
+					"phoneNumber": "9000143256",
+					"city": "Hyderabad",
+					"state": "Telangana",
+					"pinCode": "500085",
+					"country": "India",
+					"headLine": "Senior Software Engieneer",
+					"objective": "To be a good Software Professional",
+					"relocate" : "1"
+				}
+		                </pre>
+					</div>
+				</div>
+
+				<div class="request-object">
+					<div class="request-object-header">Response Object</div>
+					<div class="request-object-body">
+						<pre>
+		                  {
+				    "message": "Candidate Profile saved successfully",
+				    "responsePayload": {
+				        "message": null,
+				        "userDetailsId": 2,
+				        "fistName": "Jaya Prakash",
+				        "lastName": "Manne",
+				        "middleName": null,
+				        "roleId": 2,
+				        "authCode": "bEm5gZu8aHd61580881811474"
+				    }
+				}
+		                </pre>
+					</div>
+				</div>
+				<div class="method-content-type-url-table">
+					<div class="method-content-type-url-table-content">
+						<div class="method table-header">Field</div>
+						<div class="content-type table-header">Is Mandatory</div>
+						<div class="url table-header">Max Length</div>
+					</div>
+					<div class="method-content-type-url-table-content">
+						<div class="method body">name</div>
+						<div class="content-type body">true</div>
+						<div class="url body">150</div>
+					</div>
+					<div class="method-content-type-url-table-content">
+						<div class="method body">lastName</div>
+						<div class="content-type body">true</div>
+						<div class="url body">150</div>
+					</div>
+				</div>
+			</div>
+			
+
+		</div>
+	</div>
+
+	<script>
+        function showContent(idValue, data) {
+          var elements = document.getElementsByClassName('content-section-body');
+          
+          for (var i=0; i<elements.length; i++) {
+            elements[i].style.display = 'none';
+          }
+          
+          var elements1 = document.getElementsByClassName('list-item');
+          for (var i=0; i<elements1.length; i++) {
+            elements1[i].classList.remove("active");
+          }
+          idValue.style.display = 'block';
+          data.classList.add("active");
+        }
+      </script>
+</body>
+</html>

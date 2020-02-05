@@ -10,26 +10,21 @@ import java.io.Serializable;
 public class SaveCandidateProfileRequest implements Serializable {
 	private static final long serialVersionUID = -9018591349826302604L;
 	private String email;
-	private String password;
 	private String name;
 	private String lastName;
-	private String phoneNumber;
+	private String headLine;
+	private String objective;
 	private String city;
 	private String state;
 	private String pinCode;
 	private String country;
-	
+	private String phoneNumber;
+	private String relocate;
 	public String getEmail() {
 		return email;
 	}
 	public void setEmail(String email) {
 		this.email = email;
-	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
 	}
 	public String getName() {
 		return name;
@@ -43,11 +38,17 @@ public class SaveCandidateProfileRequest implements Serializable {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	public String getPhoneNumber() {
-		return phoneNumber;
+	public String getHeadLine() {
+		return headLine;
 	}
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
+	public void setHeadLine(String headLine) {
+		this.headLine = headLine;
+	}
+	public String getObjective() {
+		return objective;
+	}
+	public void setObjective(String objective) {
+		this.objective = objective;
 	}
 	public String getCity() {
 		return city;
@@ -72,5 +73,17 @@ public class SaveCandidateProfileRequest implements Serializable {
 	}
 	public void setCountry(String country) {
 		this.country = country;
+	}
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+	public String getRelocate() {
+		return relocate;
+	}
+	public void setRelocate(String relocate) {
+		this.relocate = relocate;
 	}
 }

@@ -79,6 +79,16 @@ public class ValidationUtil {
 			if(!Constants.SUCCESS.equalsIgnoreCase(validateFieldResult4)) {
 				return validateFieldResult4;
 			}
+			
+			String validateFieldResult5 = validateField("city", details.getCity(), true, 100);
+			if(!Constants.SUCCESS.equalsIgnoreCase(validateFieldResult5)) {
+				return validateFieldResult5;
+			}
+			
+			String validateFieldResult6 = validateField("state", details.getState(), true, 100);
+			if(!Constants.SUCCESS.equalsIgnoreCase(validateFieldResult6)) {
+				return validateFieldResult6;
+			}
 		} else {
 			return "CandidateProfile cannot be null";
 		}
