@@ -217,7 +217,7 @@ public class ResumeController extends BaseController {
 					educations = buildCandidateResumeRequest.getEducations();
 					skills = buildCandidateResumeRequest.getSkills();
 					awardsOrAchievements = buildCandidateResumeRequest.getAwardsOrAchievements();
-					certificationsAndLincenses = buildCandidateResumeRequest.getCertificationsAndLinceses();
+					certificationsAndLincenses = buildCandidateResumeRequest.getCertificationsAndLincenses();
 					nonProfitStudentOrganizations = buildCandidateResumeRequest.getNonProfitStudentOrganizations();
 					projectsOrPapersPresented = buildCandidateResumeRequest.getProjectsOrPapersPresented();
 					

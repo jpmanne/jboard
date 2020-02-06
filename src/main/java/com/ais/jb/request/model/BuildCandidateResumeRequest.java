@@ -43,7 +43,7 @@ public class BuildCandidateResumeRequest implements Serializable {
 	private List<AwardsOrAchievementsDetails> awardsOrAchievements;
 	
 	//Certifications and Licenses Details
-	private List<CertificationsAndLicensesDetails> certificationsAndLinceses;
+	private List<CertificationsAndLicensesDetails> certificationsAndLincenses;
 	
 	//Non-Profit Student Organizations Details
 	private List<NonProfitStudentOrganizationsDetails> nonProfitStudentOrganizations;
@@ -123,12 +123,12 @@ public class BuildCandidateResumeRequest implements Serializable {
 		this.awardsOrAchievements = awardsOrAchievements;
 	}
 
-	public List<CertificationsAndLicensesDetails> getCertificationsAndLinceses() {
-		return certificationsAndLinceses;
+	public List<CertificationsAndLicensesDetails> getCertificationsAndLincenses() {
+		return certificationsAndLincenses;
 	}
 
-	public void setCertificationsAndLinceses(List<CertificationsAndLicensesDetails> certificationsAndLinceses) {
-		this.certificationsAndLinceses = certificationsAndLinceses;
+	public void setCertificationsAndLincenses(List<CertificationsAndLicensesDetails> certificationsAndLincenses) {
+		this.certificationsAndLincenses = certificationsAndLincenses;
 	}
 
 	public List<NonProfitStudentOrganizationsDetails> getNonProfitStudentOrganizations() {
