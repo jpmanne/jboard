@@ -45,6 +45,7 @@ public class URLConstants {
 		public static final String SAVE_CANDIDATE_PROFILE = "/save/profile/candidate";
 		public static final String BUILD_CANDIDATE_RESUME = "/build/candidate";
 		public static final String GET_RESUME_DETAILS = "/get/details";
+		public static final String DOWNLOAD_RESUME = "/download";
 	}
 	
 	//=========================================================================

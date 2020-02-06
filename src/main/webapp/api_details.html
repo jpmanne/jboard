@@ -243,6 +243,7 @@ ul.menu-items li {
 				<li class="list-item" onClick="showContent(save_candidate_profile, this)">Save Candidate Profile</li>
 				<li class="list-item" onClick="showContent(build_candidate_resume, this)">Build Candidate Resume</li>
 				<li class="list-item" onClick="showContent(get_resume_details, this)">Get Resume Details</li>
+				<li class="list-item" onClick="showContent(download_resume, this)">Download Resume</li>
 			</ul>
 		</div>
 		<div class="content-section">
@@ -491,7 +492,7 @@ ul.menu-items li {
 				</div>
 			</div>
 
-			<!-- ==================================== Build Candidate Resume  ====================================-->
+			<!-- ==================================== Get Candidate Resume  Details ====================================-->
 			<div class="content-section-body" id="get_resume_details">
 				<div class="description-of-service">This service is to getd the candidate resume details.</div>
 				<div class="method-content-type-url-table">
@@ -506,7 +507,18 @@ ul.menu-items li {
 						<div class="url body">/api/resume/get/details</div>
 					</div>
 				</div>
-
+				<div class="validation-details-body">
+	              <div class="validation-details-left-table">
+	                <div class="validation-details-table-header">
+	                  <div class="field validation-details-body-table-header">Request Parameter</div>
+	                  <div class="validation validation-details-body-table-header">Value</div>
+	                </div>              
+	                <div class="validation-details-table-body">
+	                  <div class="field validation-details-body-table-body">authCode</div>
+	                  <div class="validation validation-details-body-table-body">bEm5gZu8aHd61580881811474</div>
+	                </div>
+	              </div>
+	            </div>
 
 				<div class="request-object">
 					<div class="request-object-header">Response Object</div>
@@ -610,6 +622,44 @@ ul.menu-items li {
 						        }
 						    }
 						}
+		                </pre>
+					</div>
+				</div>
+			</div>
+			
+			<!-- ==================================== Download Resume  ====================================-->
+			<div class="content-section-body" id="download_resume">
+				<div class="description-of-service">This service is to download the candidate resume as pdf.</div>
+				<div class="method-content-type-url-table">
+					<div class="method-content-type-url-table-content">
+						<div class="method table-header">Method</div>
+						<div class="content-type table-header">Content Type</div>
+						<div class="url table-header">URL</div>
+					</div>
+					<div class="method-content-type-url-table-content">
+						<div class="method body">GET</div>
+						<div class="content-type body">application/json</div>
+						<div class="url body">/api/resume/download</div>
+					</div>
+				</div>
+				<div class="validation-details-body">
+	              <div class="validation-details-left-table">
+	                <div class="validation-details-table-header">
+	                  <div class="field validation-details-body-table-header">Request Parameter</div>
+	                  <div class="validation validation-details-body-table-header">Value</div>
+	                </div>              
+	                <div class="validation-details-table-body">
+	                  <div class="field validation-details-body-table-body">authCode</div>
+	                  <div class="validation validation-details-body-table-body">bEm5gZu8aHd61580881811474</div>
+	                </div>
+	              </div>
+	            </div>
+
+				<div class="request-object">
+					<div class="request-object-header">Response Object</div>
+					<div class="request-object-body">
+						<pre>
+		                  Candidate resume as pdf
 		                </pre>
 					</div>
 				</div>

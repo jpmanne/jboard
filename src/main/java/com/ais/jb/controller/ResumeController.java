@@ -5,6 +5,7 @@
 */
 package com.ais.jb.controller;
 
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -23,6 +24,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.ais.jb.common.Constants;
 import com.ais.jb.common.URLConstants;
@@ -68,6 +74,7 @@ import com.ais.jb.response.model.WebWorkExperienceDetails;
 import com.ais.jb.util.AppUtil;
 import com.ais.jb.util.AuthCodeGenerator;
 import com.ais.jb.util.PasswordEncy;
+import com.ais.jb.util.PdfUtil;
 import com.ais.jb.util.UniversalUniqueCodeGenerator;
 import com.ais.jb.util.ValidationUtil;
 
@@ -489,5 +496,39 @@ public class ResumeController extends BaseController {
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
 
+	//=========================================================================
+	
+	//http://zetcode.com/springboot/servepdf/
+	@RequestMapping(value = URLConstants.Resume.DOWNLOAD_RESUME, method = RequestMethod.GET, produces = MediaType.APPLICATION_PDF_VALUE)
+    public ResponseEntity<InputStreamResource> downloadCandidateResume(@RequestParam("authCode") String authCode) throws JBoradException {
+		String logTag = "downloadCandidateResume() ";
+		LOGGER.info(AppUtil.getStartMethodMessage(logTag));
+        ByteArrayInputStream bis = null;
+        String downloadFileName = "CandidateResume.pdf";
+        HttpHeaders headers = new HttpHeaders();
+        AuthorizationDetails authorizationDetails = null;
+        
+        try {
+        	authorizationDetails = validateAuthorization(authCode);
+        	
+        	if(authorizationDetails.isValidAuthCode()) {
+				if(authorizationDetails.isValidAccess()) {
+					headers.add("Content-Disposition", "inline; filename="+downloadFileName);
+		        	UserDetails userDetails = userRepository.findByUserDetailsId(authorizationDetails.getUserDetailsId());
+		        	bis = PdfUtil.getInstance().getResumeData(userDetails);
+				} else {
+					LOGGER.info(logTag + "Unauthorized Access : "+authCode);
+				}
+			} else {
+				LOGGER.info(logTag + "Invalid AuthCode : "+authCode);
+			}
+		} catch (Exception e) {
+			String exceptionMessage = logTag + "Exception while creating the candidate resume pdf";
+			handleException(LOGGER, logTag, exceptionMessage, e, authorizationDetails); 
+		}
+        LOGGER.info(AppUtil.getEndMethodMessage(logTag));
+        return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF).body(new InputStreamResource(bis));
+    }
+	
 	//=========================================================================
 }
