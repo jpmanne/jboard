@@ -1,6 +1,9 @@
 package com.ais.jb.util;
 
-import com.ais.jb.dao.model.UserDetails;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+
+import com.ais.jb.response.model.GetResumeDetailsResponse;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
@@ -10,9 +13,6 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 
 public class PdfUtil {
 
@@ -33,7 +33,7 @@ public class PdfUtil {
 
 	// ========================================================================
 	
-	public ByteArrayInputStream getResumeData(UserDetails userDetails) {
+	public ByteArrayInputStream getResumeData( GetResumeDetailsResponse resumeDetailsResponse) {
 		Document document = new Document();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         
@@ -61,18 +61,18 @@ public class PdfUtil {
 
                 PdfPCell cell;
 
-                cell = new PdfPCell(new Phrase(String.valueOf(userDetails.getUserDetailsId())));
+                cell = new PdfPCell(new Phrase(String.valueOf(1)));
                 cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
                 cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 table.addCell(cell);
 
-                cell = new PdfPCell(new Phrase(userDetails.getFirstName()));
+                cell = new PdfPCell(new Phrase(resumeDetailsResponse.getName()));
                 cell.setPaddingLeft(5);
                 cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
                 cell.setHorizontalAlignment(Element.ALIGN_LEFT);
                 table.addCell(cell);
 
-                cell = new PdfPCell(new Phrase(userDetails.getEmail()));
+                cell = new PdfPCell(new Phrase(resumeDetailsResponse.getEmail()));
                 cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
                 cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
                 cell.setPaddingRight(5);

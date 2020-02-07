@@ -363,17 +363,6 @@ public class ResumeController extends BaseController {
 		LOGGER.info(AppUtil.getStartMethodMessage(logTag));
 		AuthorizationDetails authorizationDetails = null;
 		Response response = null;
-		UserDetails userDetails = null;
-		Optional<ResumeDetails> resumeDetails;
-		List<WorkExperienceDetails> workExperiences;
-		List<EducationDetails> educations;
-		List<SkillDetails> skills;
-		List<AwardsOrAchievementsDetails> awardsOrAchievements;
-		List<CertificationsAndLicensesDetails> certificationsAndLincenses;
-		List<NonProfitStudentOrganizationsDetails> nonProfitStudentOrganizations;
-		List<ProjectsOrPapersPresentedDetails> projectsOrPapersPresented;
-		Optional<OnlineProfileDetails> onlineProfileDetails;
-		Optional<MilitaryServiceDetails> militaryServiceDetails;
 		Long userDetailsId = null;
 		GetResumeDetailsResponse resumeDetailsResponse = null;
 		
@@ -382,104 +371,14 @@ public class ResumeController extends BaseController {
 			
 			if(authorizationDetails.isValidAuthCode()) {
 				if(authorizationDetails.isValidAccess()) {
-					resumeDetailsResponse = new GetResumeDetailsResponse();
 					userDetailsId = authorizationDetails.getUserDetailsId();
-					userDetails = userRepository.findByUserDetailsId(userDetailsId);
+					resumeDetailsResponse = getResumeDetails(authCode, userDetailsId);
 					
-					if(userDetails != null) {
-						resumeDetailsResponse.setAuthCode(authCode);
-						resumeDetailsResponse.setEmail(userDetails.getEmail());
-						resumeDetailsResponse.setName(userDetails.getFirstName());
-						resumeDetailsResponse.setLastName(userDetails.getLastName());
-						resumeDetailsResponse.setPhoneNumber(userDetails.getPhoneNumber());
-						
-						resumeDetails = resumeRepository.findById(userDetailsId);
-						if(resumeDetails.isPresent()) {
-							ResumeDetails rd = resumeDetails.get();
-							resumeDetailsResponse.setResumeCode(rd.getResumeCode()); 
-							resumeDetailsResponse.setHeadLine(rd.getHeadLine());
-							resumeDetailsResponse.setObjective(rd.getObjective());
-							resumeDetailsResponse.setCity(rd.getCity());
-							resumeDetailsResponse.setState(rd.getState());
-							resumeDetailsResponse.setCountry(rd.getCountry());
-							resumeDetailsResponse.setPinCode(rd.getPinCode());
-							resumeDetailsResponse.setRelocate(rd.getRelocation());
-						}
-						workExperiences = workExperienceDetailsRepository.getWorkExperiences(userDetailsId);
-						if(workExperiences != null && !workExperiences.isEmpty()) {
-							List<WebWorkExperienceDetails> webWorkExperiences = new ArrayList<WebWorkExperienceDetails>();
-							for (WorkExperienceDetails wd : workExperiences) { 
-								webWorkExperiences.add(wd.getWebWorkExperienceDetails());
-							}
-							resumeDetailsResponse.setWorkExperiences(webWorkExperiences);
-						}
-						
-						educations = educationDetailsRepository.getEducations(userDetailsId);
-						if(educations != null && !educations.isEmpty()) {
-							List<WebEducationDetails> webEducations = new ArrayList<WebEducationDetails>();
-							for (EducationDetails a : educations) { 
-								webEducations.add(a.getWebEducationDetails());
-							}
-							resumeDetailsResponse.setEducations(webEducations);
-						}
-						
-						
-						skills = skillDetailsRepository.getSkills(userDetailsId);
-						if(skills != null && !skills.isEmpty()) {
-							List<WebSkillDetails> webSkills = new ArrayList<WebSkillDetails>();
-							for (SkillDetails a : skills) { 
-								webSkills.add(a.getWebSkillDetails());
-							}
-							resumeDetailsResponse.setSkills(webSkills);
-						}
-						
-						awardsOrAchievements = awardsOrAchiementsDetailsRepository.getAwardsOrAchievements(userDetailsId);
-						if(awardsOrAchievements != null && !awardsOrAchievements.isEmpty()) {
-							List<WebAwardsOrAchievementsDetails> webAwardsOrAchievements = new ArrayList<WebAwardsOrAchievementsDetails>();
-							for (AwardsOrAchievementsDetails a : awardsOrAchievements) { 
-								webAwardsOrAchievements.add(a.getWebAwardsOrAchievementsDetails());
-							}
-							resumeDetailsResponse.setAwardsOrAchievements(webAwardsOrAchievements);
-						}
-						
-						certificationsAndLincenses = certificationsRepository.getCertifications(userDetailsId);
-						if(certificationsAndLincenses != null && !certificationsAndLincenses.isEmpty()) {
-							List<WebCertificationsAndLicensesDetails> webCertificationsAndLincenses = new ArrayList<WebCertificationsAndLicensesDetails>();
-							for (CertificationsAndLicensesDetails a : certificationsAndLincenses) { 
-								webCertificationsAndLincenses.add(a.getWebCertificationsAndLicensesDetails());
-							}
-							resumeDetailsResponse.setCertificationsAndLincenses(webCertificationsAndLincenses);
-						}
-						
-						nonProfitStudentOrganizations = studentOrganizationsRepository.getNonProfitStudentOrganizations(userDetailsId);
-						if(nonProfitStudentOrganizations != null && !nonProfitStudentOrganizations.isEmpty()) {
-							List<WebNonProfitStudentOrganizationsDetails> webNonProfitStudentOrganizations = new ArrayList<WebNonProfitStudentOrganizationsDetails>();
-							for (NonProfitStudentOrganizationsDetails a : nonProfitStudentOrganizations) { 
-								webNonProfitStudentOrganizations.add(a.getWebNonProfitStudentOrganizationsDetails());
-							}
-							resumeDetailsResponse.setNonProfitStudentOrganizations(webNonProfitStudentOrganizations);
-						}
-						
-						projectsOrPapersPresented = projectsRepository.getProjects(userDetailsId);
-						if(projectsOrPapersPresented != null && !projectsOrPapersPresented.isEmpty()) {
-							List<WebProjectsOrPapersPresentedDetails> webProjectsOrPapersPresented = new ArrayList<WebProjectsOrPapersPresentedDetails>();
-							for (ProjectsOrPapersPresentedDetails a : projectsOrPapersPresented) { 
-								webProjectsOrPapersPresented.add(a.getWebProjectsOrPapersPresentedDetails());
-							}
-							resumeDetailsResponse.setProjectsOrPapersPresented(webProjectsOrPapersPresented); 
-						}
-						
-						onlineProfileDetails = onlineProfileDetailsRepository.findById(userDetailsId);
-						if(onlineProfileDetails.isPresent()) {
-							resumeDetailsResponse.setOnlineProfileDetails(onlineProfileDetails.get().getWebOnlineProfileDetails());
-						}
-
-						militaryServiceDetails = militaryServiceDetailsRepository.findById(userDetailsId);
-						if(militaryServiceDetails.isPresent()) {
-							resumeDetailsResponse.setMilitaryServiceDetails(militaryServiceDetails.get().getWebMilitaryServiceDetails());
-						}
+					if(resumeDetailsResponse != null) {
+						response = new Response("Resume Details", resumeDetailsResponse);
+					} else {
+						response = new Response("No Resume Details found for this user.", null);
 					}
-					response = new Response("Resume Details", resumeDetailsResponse);
 				} else {
 					LOGGER.info(logTag + "Unauthorized Access : "+authCode);
 					return new ResponseEntity<Response>(getUnAuthorizedAccessRespose(), HttpStatus.UNAUTHORIZED);
@@ -507,15 +406,24 @@ public class ResumeController extends BaseController {
         String downloadFileName = "CandidateResume.pdf";
         HttpHeaders headers = new HttpHeaders();
         AuthorizationDetails authorizationDetails = null;
+        Long userDetailsId = null;
+        GetResumeDetailsResponse resumeDetailsResponse = null;
+        String candidateName = null;
         
         try {
         	authorizationDetails = validateAuthorization(authCode);
         	
         	if(authorizationDetails.isValidAuthCode()) {
 				if(authorizationDetails.isValidAccess()) {
-					headers.add("Content-Disposition", "inline; filename="+downloadFileName);
-		        	UserDetails userDetails = userRepository.findByUserDetailsId(authorizationDetails.getUserDetailsId());
-		        	bis = PdfUtil.getInstance().getResumeData(userDetails);
+					userDetailsId = authorizationDetails.getUserDetailsId();
+					resumeDetailsResponse = getResumeDetails(authCode, userDetailsId);
+					
+					if(resumeDetailsResponse != null) {
+						candidateName = resumeDetailsResponse.getName().concat(" ").concat(resumeDetailsResponse.getLastName());
+						downloadFileName = candidateName.trim().replaceAll(" ", "_").concat(".pdf");
+						headers.add("Content-Disposition", "inline; filename="+downloadFileName);
+						bis = PdfUtil.getInstance().getResumeData(resumeDetailsResponse);
+					}
 				} else {
 					LOGGER.info(logTag + "Unauthorized Access : "+authCode);
 				}
@@ -529,6 +437,129 @@ public class ResumeController extends BaseController {
         LOGGER.info(AppUtil.getEndMethodMessage(logTag));
         return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF).body(new InputStreamResource(bis));
     }
+	
+	//=========================================================================
+	
+	private GetResumeDetailsResponse getResumeDetails(String authCode, Long userDetailsId) throws JBoradException {
+		String logTag = "getResumeDetails() ";
+		GetResumeDetailsResponse resumeDetailsResponse = null;
+		Optional<ResumeDetails> resumeDetails;
+		List<WorkExperienceDetails> workExperiences;
+		List<EducationDetails> educations;
+		List<SkillDetails> skills;
+		List<AwardsOrAchievementsDetails> awardsOrAchievements;
+		List<CertificationsAndLicensesDetails> certificationsAndLincenses;
+		List<NonProfitStudentOrganizationsDetails> nonProfitStudentOrganizations;
+		List<ProjectsOrPapersPresentedDetails> projectsOrPapersPresented;
+		Optional<OnlineProfileDetails> onlineProfileDetails;
+		Optional<MilitaryServiceDetails> militaryServiceDetails;
+		UserDetails userDetails = null;
+		
+		try {
+			if(userDetailsId != null) {
+				userDetails = userRepository.findByUserDetailsId(userDetailsId);
+				
+				if(userDetails != null) {
+					resumeDetailsResponse = new GetResumeDetailsResponse();
+					resumeDetailsResponse.setAuthCode(authCode);
+					resumeDetailsResponse.setEmail(userDetails.getEmail());
+					resumeDetailsResponse.setName(userDetails.getFirstName());
+					resumeDetailsResponse.setLastName(userDetails.getLastName());
+					resumeDetailsResponse.setPhoneNumber(userDetails.getPhoneNumber());
+					
+					resumeDetails = resumeRepository.findById(userDetailsId);
+					if(resumeDetails.isPresent()) {
+						ResumeDetails rd = resumeDetails.get();
+						resumeDetailsResponse.setResumeCode(rd.getResumeCode()); 
+						resumeDetailsResponse.setHeadLine(rd.getHeadLine());
+						resumeDetailsResponse.setObjective(rd.getObjective());
+						resumeDetailsResponse.setCity(rd.getCity());
+						resumeDetailsResponse.setState(rd.getState());
+						resumeDetailsResponse.setCountry(rd.getCountry());
+						resumeDetailsResponse.setPinCode(rd.getPinCode());
+						resumeDetailsResponse.setRelocate(rd.getRelocation());
+					}
+					
+					workExperiences = workExperienceDetailsRepository.getWorkExperiences(userDetailsId);
+					if(workExperiences != null && !workExperiences.isEmpty()) {
+						List<WebWorkExperienceDetails> webWorkExperiences = new ArrayList<WebWorkExperienceDetails>();
+						for (WorkExperienceDetails wd : workExperiences) { 
+							webWorkExperiences.add(wd.getWebWorkExperienceDetails());
+						}
+						resumeDetailsResponse.setWorkExperiences(webWorkExperiences);
+					}
+					
+					educations = educationDetailsRepository.getEducations(userDetailsId);
+					if(educations != null && !educations.isEmpty()) {
+						List<WebEducationDetails> webEducations = new ArrayList<WebEducationDetails>();
+						for (EducationDetails a : educations) { 
+							webEducations.add(a.getWebEducationDetails());
+						}
+						resumeDetailsResponse.setEducations(webEducations);
+					}
+					
+					skills = skillDetailsRepository.getSkills(userDetailsId);
+					if(skills != null && !skills.isEmpty()) {
+						List<WebSkillDetails> webSkills = new ArrayList<WebSkillDetails>();
+						for (SkillDetails a : skills) { 
+							webSkills.add(a.getWebSkillDetails());
+						}
+						resumeDetailsResponse.setSkills(webSkills);
+					}
+					
+					awardsOrAchievements = awardsOrAchiementsDetailsRepository.getAwardsOrAchievements(userDetailsId);
+					if(awardsOrAchievements != null && !awardsOrAchievements.isEmpty()) {
+						List<WebAwardsOrAchievementsDetails> webAwardsOrAchievements = new ArrayList<WebAwardsOrAchievementsDetails>();
+						for (AwardsOrAchievementsDetails a : awardsOrAchievements) { 
+							webAwardsOrAchievements.add(a.getWebAwardsOrAchievementsDetails());
+						}
+						resumeDetailsResponse.setAwardsOrAchievements(webAwardsOrAchievements);
+					}
+					
+					certificationsAndLincenses = certificationsRepository.getCertifications(userDetailsId);
+					if(certificationsAndLincenses != null && !certificationsAndLincenses.isEmpty()) {
+						List<WebCertificationsAndLicensesDetails> webCertificationsAndLincenses = new ArrayList<WebCertificationsAndLicensesDetails>();
+						for (CertificationsAndLicensesDetails a : certificationsAndLincenses) { 
+							webCertificationsAndLincenses.add(a.getWebCertificationsAndLicensesDetails());
+						}
+						resumeDetailsResponse.setCertificationsAndLincenses(webCertificationsAndLincenses);
+					}
+					
+					nonProfitStudentOrganizations = studentOrganizationsRepository.getNonProfitStudentOrganizations(userDetailsId);
+					if(nonProfitStudentOrganizations != null && !nonProfitStudentOrganizations.isEmpty()) {
+						List<WebNonProfitStudentOrganizationsDetails> webNonProfitStudentOrganizations = new ArrayList<WebNonProfitStudentOrganizationsDetails>();
+						for (NonProfitStudentOrganizationsDetails a : nonProfitStudentOrganizations) { 
+							webNonProfitStudentOrganizations.add(a.getWebNonProfitStudentOrganizationsDetails());
+						}
+						resumeDetailsResponse.setNonProfitStudentOrganizations(webNonProfitStudentOrganizations);
+					}
+					
+					projectsOrPapersPresented = projectsRepository.getProjects(userDetailsId);
+					if(projectsOrPapersPresented != null && !projectsOrPapersPresented.isEmpty()) {
+						List<WebProjectsOrPapersPresentedDetails> webProjectsOrPapersPresented = new ArrayList<WebProjectsOrPapersPresentedDetails>();
+						for (ProjectsOrPapersPresentedDetails a : projectsOrPapersPresented) { 
+							webProjectsOrPapersPresented.add(a.getWebProjectsOrPapersPresentedDetails());
+						}
+						resumeDetailsResponse.setProjectsOrPapersPresented(webProjectsOrPapersPresented); 
+					}
+					
+					onlineProfileDetails = onlineProfileDetailsRepository.findById(userDetailsId);
+					if(onlineProfileDetails.isPresent()) {
+						resumeDetailsResponse.setOnlineProfileDetails(onlineProfileDetails.get().getWebOnlineProfileDetails());
+					}
+					
+					militaryServiceDetails = militaryServiceDetailsRepository.findById(userDetailsId);
+					if(militaryServiceDetails.isPresent()) {
+						resumeDetailsResponse.setMilitaryServiceDetails(militaryServiceDetails.get().getWebMilitaryServiceDetails());
+					}
+				}
+			}
+		} catch (Exception e) {
+			String exceptionMessage = logTag + "Exception while retrieving the candidate resume details";
+			handleException(LOGGER, logTag, exceptionMessage, e, null); 
+		}
+		return resumeDetailsResponse;
+	}
 	
 	//=========================================================================
 }
