@@ -172,7 +172,7 @@ public class ResumeController extends BaseController {
 						candidateProfileResponse.setRoleId(userDetails.getRoleDetails().getRoleId()); 
 						
 						EmailUtil emailUtil = EmailUtil.getInstance();
-						boolean isMailSent = emailUtil.send(emailUtil.populateCandidateCredenitalsMail(userDetails.getFirstName(), userDetails.getLastName(), userDetails.getEmail(), password));
+						boolean isMailSent = emailUtil.send(emailUtil.populateCredenitalsMail(userDetails.getFirstName(), userDetails.getLastName(), userDetails.getEmail(), password));
 						LOGGER.info("isMailSent : "+isMailSent);
 						
 						response = new Response("Candidate Profile saved successfully", candidateProfileResponse);

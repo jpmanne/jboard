@@ -16,6 +16,7 @@ import com.ais.jb.dao.model.ProjectsOrPapersPresentedDetails;
 import com.ais.jb.dao.model.SkillDetails;
 import com.ais.jb.dao.model.WorkExperienceDetails;
 import com.ais.jb.request.model.SaveCandidateProfileRequest;
+import com.ais.jb.request.model.SaveEmployerProfileRequest;
 
 public class ValidationUtil {
 	
@@ -325,6 +326,54 @@ public class ValidationUtil {
 			}
 		} else {
 			return "MilitaryServiceDetails cannot be null";
+		}
+		return Constants.SUCCESS;
+	}
+	
+	// ========================================================================
+	
+	public String validateEmployerProfileDetails(SaveEmployerProfileRequest details) {
+		if(details != null) {
+			String validateFieldResult1 = validateField("email", details.getEmail(), true, 150);
+			if(!Constants.SUCCESS.equalsIgnoreCase(validateFieldResult1)) {
+				return validateFieldResult1;
+			}
+			
+			/*String validateFieldResult2 = validateField("password", details.getPassword(), true, 150);
+			if(!Constants.SUCCESS.equalsIgnoreCase(validateFieldResult2)) {
+				return validateFieldResult2;
+			}*/
+			
+			String validateFieldResult3 = validateField("name", details.getName(), true, 150);
+			if(!Constants.SUCCESS.equalsIgnoreCase(validateFieldResult3)) {
+				return validateFieldResult3;
+			}
+			
+			String validateFieldResult4 = validateField("lastName", details.getLastName(), true, 150);
+			if(!Constants.SUCCESS.equalsIgnoreCase(validateFieldResult4)) {
+				return validateFieldResult4;
+			}
+			
+			String validateFieldResult5 = validateField("companyName", details.getCompanyName(), true, 150);
+			if(!Constants.SUCCESS.equalsIgnoreCase(validateFieldResult5)) {
+				return validateFieldResult5;
+			}
+			
+			String validateFieldResult6 = validateField("companySize", details.getCompanySize(), true, 25);
+			if(!Constants.SUCCESS.equalsIgnoreCase(validateFieldResult6)) {
+				return validateFieldResult6;
+			}
+			
+			String validateFieldResult7 = validateField("howHearAboutUs", details.getHowHearAboutUs(), true, 100);
+			if(!Constants.SUCCESS.equalsIgnoreCase(validateFieldResult7)) {
+				return validateFieldResult7;
+			}
+			String validateFieldResult8 = validateField("recruiterHiringForClient", details.getRecruiterHiringForClient(), true, 15);
+			if(!Constants.SUCCESS.equalsIgnoreCase(validateFieldResult8)) {
+				return validateFieldResult8;
+			}
+		} else {
+			return "EmployerProfile cannot be null";
 		}
 		return Constants.SUCCESS;
 	}

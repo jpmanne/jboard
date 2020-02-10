@@ -165,7 +165,7 @@ public class EmailUtil {
 	
 	// ========================================================================
 	
-	public EmailDetails populateCandidateCredenitalsMail(String firstName, String lastName, String email, String password) {
+	public EmailDetails populateCredenitalsMail(String firstName, String lastName, String email, String password) {
 		EmailDetails emailDetails = new EmailDetails();
 		emailDetails.setSubject("Job Board access credentials");
 		StringBuffer messageContentStringBuffer = new StringBuffer();
