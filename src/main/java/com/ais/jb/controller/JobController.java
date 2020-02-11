@@ -92,7 +92,7 @@ public class JobController extends BaseController {
 					employerDetails.setCompanyName(saveEmployerProfileRequest.getCompanyName());
 					employerDetails.setCompanySize(saveEmployerProfileRequest.getCompanySize());
 					employerDetails.setHowHearAboutUs(saveEmployerProfileRequest.getHowHearAboutUs());
-					employerDetails.setRecruiterHiringForClient(saveEmployerProfileRequest.getHowHearAboutUs());
+					employerDetails.setRecruiterHiringForClient(saveEmployerProfileRequest.getRecruiterHiringForClient());
 					employerDetails = employerRepository.save(employerDetails);
 					
 					AuthCodeDetails authCodeDetails = new AuthCodeDetails();
@@ -111,9 +111,9 @@ public class JobController extends BaseController {
 					candidateProfileResponse.setUserDetailsId(userDetails.getUserDetailsId());
 					candidateProfileResponse.setRoleId(userDetails.getRoleDetails().getRoleId()); 
 					
-					EmailUtil emailUtil = EmailUtil.getInstance();
-					boolean isMailSent = emailUtil.send(emailUtil.populateCredenitalsMail(userDetails.getFirstName(), "", userDetails.getEmail(), password));
-					LOGGER.info("isMailSent : "+isMailSent);
+					//EmailUtil emailUtil = EmailUtil.getInstance();
+					//boolean isMailSent = emailUtil.send(emailUtil.populateCredenitalsMail(userDetails.getFirstName(), "", userDetails.getEmail(), password));
+					//LOGGER.info("isMailSent : "+isMailSent);
 					response = new Response("Employer Profile saved successfully", candidateProfileResponse);
 				}
 			}

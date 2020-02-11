@@ -11,7 +11,6 @@ public class SaveEmployerProfileRequest implements Serializable {
 	private static final long serialVersionUID = -9018591349826302604L;
 	private String email;
 	private String name;
-	private String lastName;
 	private String phoneNumber;
 	private String companyName;
 	private String companySize;
@@ -28,12 +27,6 @@ public class SaveEmployerProfileRequest implements Serializable {
 	}
 	public void setName(String name) {
 		this.name = name;
-	}
-	public String getLastName() {
-		return lastName;
-	}
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
 	}
 	public String getPhoneNumber() {
 		return phoneNumber;

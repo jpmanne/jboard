@@ -349,10 +349,10 @@ public class ValidationUtil {
 				return validateFieldResult3;
 			}
 			
-			String validateFieldResult4 = validateField("lastName", details.getLastName(), true, 150);
+			/*String validateFieldResult4 = validateField("lastName", details.getLastName(), true, 150);
 			if(!Constants.SUCCESS.equalsIgnoreCase(validateFieldResult4)) {
 				return validateFieldResult4;
-			}
+			}*/
 			
 			String validateFieldResult5 = validateField("companyName", details.getCompanyName(), true, 150);
 			if(!Constants.SUCCESS.equalsIgnoreCase(validateFieldResult5)) {
