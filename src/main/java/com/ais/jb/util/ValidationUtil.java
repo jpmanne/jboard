@@ -15,6 +15,7 @@ import com.ais.jb.dao.model.OnlineProfileDetails;
 import com.ais.jb.dao.model.ProjectsOrPapersPresentedDetails;
 import com.ais.jb.dao.model.SkillDetails;
 import com.ais.jb.dao.model.WorkExperienceDetails;
+import com.ais.jb.request.model.PostJobRequest;
 import com.ais.jb.request.model.SaveCandidateProfileRequest;
 import com.ais.jb.request.model.SaveEmployerProfileRequest;
 
@@ -379,5 +380,55 @@ public class ValidationUtil {
 	}
 	
 	// ========================================================================
+	
+	public String validatePostJobDetails(PostJobRequest details) {
+		if(details != null) {
+			
+			String validateFieldResult1 = validateField("jobTitle", details.getJobTitle(), true, 255);
+			if(!Constants.SUCCESS.equalsIgnoreCase(validateFieldResult1)) {
+				return validateFieldResult1;
+			}
+			
+			String validateFieldResult2 = validateField("companyName", details.getCompanyName(), true, 255);
+			if(!Constants.SUCCESS.equalsIgnoreCase(validateFieldResult2)) {
+				return validateFieldResult2;
+			}
+			
+			String validateFieldResult3 = validateField("city", details.getCity(), true, 100);
+			if(!Constants.SUCCESS.equalsIgnoreCase(validateFieldResult3)) {
+				return validateFieldResult3;
+			}
+			
+			String validateFieldResult4 = validateField("state", details.getState(), true, 100);
+			if(!Constants.SUCCESS.equalsIgnoreCase(validateFieldResult4)) {
+				return validateFieldResult4;
+			}
+			
+			String validateFieldResult5 = validateField("country", details.getCountry(), true, 100);
+			if(!Constants.SUCCESS.equalsIgnoreCase(validateFieldResult5)) {
+				return validateFieldResult5;
+			}
+			
+			String validateFieldResult6 = validateField("jobType", details.getJobType(), true, 20);
+			if(Constants.SUCCESS.equalsIgnoreCase(validateFieldResult6)) {
+				boolean validJobType = false;
+				
+				for(int i = 0; i < Constants.JOB_TYPES.length; i++) {
+					if(details.getJobType().equalsIgnoreCase(Constants.JOB_TYPES[i])) {
+						validJobType = true;
+						break;
+					}
+				}
+				if(!validJobType) {
+					return "Invalid Job Type";
+				}
+			} else {
+				return validateFieldResult6;
+			}
+		} else {
+			return "PostJobRequest cannot be null";
+		}
+		return Constants.SUCCESS;
+	}
 	
 }

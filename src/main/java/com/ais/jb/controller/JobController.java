@@ -25,6 +25,9 @@ import com.ais.jb.common.Constants;
 import com.ais.jb.common.URLConstants;
 import com.ais.jb.dao.model.AuthCodeDetails;
 import com.ais.jb.dao.model.EmployerDetails;
+import com.ais.jb.dao.model.JobApplicationQualifications;
+import com.ais.jb.dao.model.JobApplicationSettings;
+import com.ais.jb.dao.model.JobDetails;
 import com.ais.jb.dao.model.RoleDetails;
 import com.ais.jb.dao.model.UserDetails;
 import com.ais.jb.email.EmailUtil;
@@ -34,6 +37,7 @@ import com.ais.jb.model.Response;
 import com.ais.jb.repository.EmployerRepository;
 import com.ais.jb.repository.UserRepository;
 import com.ais.jb.request.model.BuildCandidateResumeRequest;
+import com.ais.jb.request.model.PostJobRequest;
 import com.ais.jb.request.model.SaveEmployerProfileRequest;
 import com.ais.jb.response.model.EmployerProfileResponse;
 import com.ais.jb.util.AppUtil;
@@ -128,8 +132,7 @@ public class JobController extends BaseController {
 	//=========================================================================
 	
 	@PostMapping(URLConstants.Job.POST_JOB)
-	public ResponseEntity<Response> postJob(@Valid @RequestBody BuildCandidateResumeRequest buildCandidateResumeRequest,
-		@RequestParam("authCode") String authCode) throws JBoradException {
+	public ResponseEntity<Response> postJob(@Valid @RequestBody PostJobRequest postJobRequest, @RequestParam("authCode") String authCode) throws JBoradException {
 		String logTag = "postJob() :";
 		LOGGER.info(AppUtil.getStartMethodMessage(logTag));
 		AuthorizationDetails authorizationDetails = null;
@@ -147,25 +150,27 @@ public class JobController extends BaseController {
 					userDetails = new UserDetails();
 					userDetails.setUserDetailsId(authorizationDetails.getUserDetailsId());
 					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
+					if(postJobRequest != null) {
+						String validationResult = validationUtil.validatePostJobDetails(postJobRequest);
+						if(Constants.SUCCESS.equalsIgnoreCase(validationResult)) {
+							JobDetails jobDetails = new JobDetails();
+							
+							
+							//Job Application Settings
+							JobApplicationSettings jobApplicationSettings = new JobApplicationSettings();
+							
+							
+							
+							
+							//Job Application Qualifications
+							JobApplicationQualifications jobApplicationQualifications = new JobApplicationQualifications();
+							
+						} else {
+							return getInvalidDataResponseEntity(validationResult);
+							
+						}
+					}
+
 					if(saveCount > 0) {
 						response = new Response("Job Post successfully", null);
 					} else {

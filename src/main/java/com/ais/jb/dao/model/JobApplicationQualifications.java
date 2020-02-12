@@ -26,7 +26,7 @@ public class JobApplicationQualifications {
 	@Column(name = "job_application_qualifications_id", length = 20, nullable = false)
 	private Long jobApplicationQualificationsId;
 
-	@Column(name = "c", length = 1, nullable = false)
+	@Column(name = "notify_required", length = 1, nullable = false)
 	private String notifyRequired;
 	
 	@Column(name = "experience_qualification", nullable = true, length = 65535, columnDefinition = "text")
