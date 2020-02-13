@@ -94,6 +94,56 @@ public class JobDetails {
 	@CreatedDate
 	private Date createdAt;
 
+	//Job Application Settings
+	@Column(name = "receive_applications", length = 1, nullable = false)
+	private String receiveApplications;
+	
+	@Column(name = "email_addresses", nullable = true, length = 65535, columnDefinition = "text")
+	private String emailAddresses;
+	
+	@Column(name = "inperson_address", nullable = true, length = 65535, columnDefinition = "text")
+	private String inpersonAddresses;
+	
+	@Column(name = "new_applicatants_informed", length = 1, nullable = false)
+	private String newApplicatantsInformed;
+	
+	@Column(name = "submit_resume", length = 1, nullable = false)
+	private String submitResume;
+	
+	//Job Application Qualifications
+	@Column(name = "notify_required", length = 1, nullable = false)
+	private String notifyRequired;
+	
+	@Column(name = "experience_qualification", nullable = true, length = 65535, columnDefinition = "text")
+	private String experienceQualification;
+	
+	@Column(name = "license_qualification", nullable = true, length = 65535, columnDefinition = "text")
+	private String licenseQualification;
+	
+	@Column(name = "language_qualification", nullable = true, length = 65535, columnDefinition = "text")
+	private String languageQualification;
+	
+	@Column(name = "education_qualification", length = 100, nullable = true)
+	private String educationQualification;
+	
+	@Column(name = "location_qualification", length = 100, nullable = true)
+	private String locationQualification;
+	
+	@Column(name = "shift_availability_qualification", length = 100, nullable = true)
+	private String shiftAvailabilityQualification;
+	
+	@Column(name = "willing_to_travel_qualification", length = 100, nullable = true)
+	private String willingToTravelQualification;
+	
+	@Column(name = "required_documents_qualification", length = 100, nullable = true)
+	private String requiredDocumentsQualification;
+	
+	@Column(name = "start_date_qualification", length = 100, nullable = true)
+	private String startDateQualification;
+
+	@Column(name = "expected_ctc_qualification", length = 100, nullable = true)
+	private String expectedCtcQualification;
+
 	public Long getJobDetailsId() {
 		return jobDetailsId;
 	}
@@ -260,5 +310,133 @@ public class JobDetails {
 
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
+	}
+
+	public String getReceiveApplications() {
+		return receiveApplications;
+	}
+
+	public void setReceiveApplications(String receiveApplications) {
+		this.receiveApplications = receiveApplications;
+	}
+
+	public String getEmailAddresses() {
+		return emailAddresses;
+	}
+
+	public void setEmailAddresses(String emailAddresses) {
+		this.emailAddresses = emailAddresses;
+	}
+
+	public String getInpersonAddresses() {
+		return inpersonAddresses;
+	}
+
+	public void setInpersonAddresses(String inpersonAddresses) {
+		this.inpersonAddresses = inpersonAddresses;
+	}
+
+	public String getNewApplicatantsInformed() {
+		return newApplicatantsInformed;
+	}
+
+	public void setNewApplicatantsInformed(String newApplicatantsInformed) {
+		this.newApplicatantsInformed = newApplicatantsInformed;
+	}
+
+	public String getSubmitResume() {
+		return submitResume;
+	}
+
+	public void setSubmitResume(String submitResume) {
+		this.submitResume = submitResume;
+	}
+
+	public String getNotifyRequired() {
+		return notifyRequired;
+	}
+
+	public void setNotifyRequired(String notifyRequired) {
+		this.notifyRequired = notifyRequired;
+	}
+
+	public String getExperienceQualification() {
+		return experienceQualification;
+	}
+
+	public void setExperienceQualification(String experienceQualification) {
+		this.experienceQualification = experienceQualification;
+	}
+
+	public String getLicenseQualification() {
+		return licenseQualification;
+	}
+
+	public void setLicenseQualification(String licenseQualification) {
+		this.licenseQualification = licenseQualification;
+	}
+
+	public String getLanguageQualification() {
+		return languageQualification;
+	}
+
+	public void setLanguageQualification(String languageQualification) {
+		this.languageQualification = languageQualification;
+	}
+
+	public String getEducationQualification() {
+		return educationQualification;
+	}
+
+	public void setEducationQualification(String educationQualification) {
+		this.educationQualification = educationQualification;
+	}
+
+	public String getLocationQualification() {
+		return locationQualification;
+	}
+
+	public void setLocationQualification(String locationQualification) {
+		this.locationQualification = locationQualification;
+	}
+
+	public String getShiftAvailabilityQualification() {
+		return shiftAvailabilityQualification;
+	}
+
+	public void setShiftAvailabilityQualification(String shiftAvailabilityQualification) {
+		this.shiftAvailabilityQualification = shiftAvailabilityQualification;
+	}
+
+	public String getWillingToTravelQualification() {
+		return willingToTravelQualification;
+	}
+
+	public void setWillingToTravelQualification(String willingToTravelQualification) {
+		this.willingToTravelQualification = willingToTravelQualification;
+	}
+
+	public String getRequiredDocumentsQualification() {
+		return requiredDocumentsQualification;
+	}
+
+	public void setRequiredDocumentsQualification(String requiredDocumentsQualification) {
+		this.requiredDocumentsQualification = requiredDocumentsQualification;
+	}
+
+	public String getStartDateQualification() {
+		return startDateQualification;
+	}
+
+	public void setStartDateQualification(String startDateQualification) {
+		this.startDateQualification = startDateQualification;
+	}
+
+	public String getExpectedCtcQualification() {
+		return expectedCtcQualification;
+	}
+
+	public void setExpectedCtcQualification(String expectedCtcQualification) {
+		this.expectedCtcQualification = expectedCtcQualification;
 	}
 }

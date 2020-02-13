@@ -7,6 +7,7 @@ package com.ais.jb.controller;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -30,13 +31,12 @@ import com.ais.jb.dao.model.JobApplicationSettings;
 import com.ais.jb.dao.model.JobDetails;
 import com.ais.jb.dao.model.RoleDetails;
 import com.ais.jb.dao.model.UserDetails;
-import com.ais.jb.email.EmailUtil;
 import com.ais.jb.exception.JBoradException;
 import com.ais.jb.model.AuthorizationDetails;
 import com.ais.jb.model.Response;
 import com.ais.jb.repository.EmployerRepository;
+import com.ais.jb.repository.JobRepository;
 import com.ais.jb.repository.UserRepository;
-import com.ais.jb.request.model.BuildCandidateResumeRequest;
 import com.ais.jb.request.model.PostJobRequest;
 import com.ais.jb.request.model.SaveEmployerProfileRequest;
 import com.ais.jb.response.model.EmployerProfileResponse;
@@ -55,6 +55,9 @@ public class JobController extends BaseController {
 	
 	@Autowired
 	EmployerRepository employerRepository;
+	
+	@Autowired
+	JobRepository jobRepository;
 	
 	//=========================================================================
 	
@@ -138,7 +141,6 @@ public class JobController extends BaseController {
 		AuthorizationDetails authorizationDetails = null;
 		Response response = null;
 		UserDetails userDetails = null;
-		int saveCount = 0;
 		ValidationUtil validationUtil = null;
 		
 		try {
@@ -153,29 +155,61 @@ public class JobController extends BaseController {
 					if(postJobRequest != null) {
 						String validationResult = validationUtil.validatePostJobDetails(postJobRequest);
 						if(Constants.SUCCESS.equalsIgnoreCase(validationResult)) {
-							JobDetails jobDetails = new JobDetails();
+							Optional<EmployerDetails> employerDetails = employerRepository.findById(userDetails.getUserDetailsId());
 							
-							
-							//Job Application Settings
-							JobApplicationSettings jobApplicationSettings = new JobApplicationSettings();
-							
-							
-							
-							
-							//Job Application Qualifications
-							JobApplicationQualifications jobApplicationQualifications = new JobApplicationQualifications();
-							
+							if(employerDetails.isPresent()) {
+								JobDetails jobDetails = new JobDetails();
+								jobDetails.setJobTitle(postJobRequest.getJobTitle());
+								jobDetails.setCompany(postJobRequest.getCompanyName());
+								jobDetails.setCity(postJobRequest.getCity());
+								jobDetails.setState(postJobRequest.getState());
+								jobDetails.setCountry(postJobRequest.getCountry());
+								jobDetails.setJobType(postJobRequest.getJobType());
+								jobDetails.setJobCode(UniversalUniqueCodeGenerator.getInstance().getResumeCode());
+								jobDetails.setEmployerDetails(employerDetails.get());
+								jobDetails.setSalaryRange(postJobRequest.getSalaryRange());
+								jobDetails.setSalaryType(postJobRequest.getSalaryType());
+								jobDetails.setHowManyHires(postJobRequest.getHowManyHires());
+								jobDetails.setHowUrgentlyRequired(postJobRequest.getHowUrgentlyRequired());
+								jobDetails.setAdditionalDetails(postJobRequest.getAdditionalDetails());
+								jobDetails.setIndustry(postJobRequest.getIndustry());
+								jobDetails.setJobSummary(postJobRequest.getJobSummary());
+								jobDetails.setResponsibilitiesAndDuties(postJobRequest.getResponsibilitiesAndDuties());
+								jobDetails.setQualificationsAndSkills(postJobRequest.getQualificationsAndSkills());
+								jobDetails.setBenefits(postJobRequest.getBenefits());
+								
+								//Job Application Settings
+								jobDetails.setReceiveApplications(postJobRequest.getReceiveApplications());
+								if(jobDetails.getReceiveApplications().equalsIgnoreCase("Email")) {
+									jobDetails.setEmailAddresses(postJobRequest.getEmailAddresses());
+								} else {
+									jobDetails.setInpersonAddresses(postJobRequest.getInpersonAddresses());
+								}
+								jobDetails.setNewApplicatantsInformed(postJobRequest.getNewApplicatantsInformed());
+								jobDetails.setSubmitResume(postJobRequest.getSubmitResume());
+								
+								//Job Application Qualifications
+								jobDetails.setNotifyRequired(postJobRequest.getNotifyRequired());
+								jobDetails.setExperienceQualification(getString(postJobRequest.getExperienceQualifications()));
+								jobDetails.setLicenseQualification(getString(postJobRequest.getLanguageQualificationa()));
+								jobDetails.setEducationQualification(getString(postJobRequest.getExperienceQualifications()));
+								jobDetails.setLocationQualification(postJobRequest.getLocationQualification());
+								jobDetails.setShiftAvailabilityQualification(postJobRequest.getShiftAvailabilityQualification());
+								jobDetails.setWillingToTravelQualification(postJobRequest.getWillingToTravelQualification());
+								jobDetails.setRequiredDocumentsQualification(postJobRequest.getRequiredDocumentsQualification());
+								jobDetails.setStartDateQualification(postJobRequest.getStartDateQualification());
+								jobDetails.setExpectedCtcQualification(postJobRequest.getExpectedCtcQualification());
+								jobDetails = jobRepository.save(jobDetails);
+								if(jobDetails.getJobDetailsId() != null && jobDetails.getJobDetailsId().longValue() > 0) {
+									response = new Response("Job Post successfully", null);
+								}
+							}
 						} else {
 							return getInvalidDataResponseEntity(validationResult);
 							
 						}
 					}
-
-					if(saveCount > 0) {
-						response = new Response("Job Post successfully", null);
-					} else {
-						response = new Response("Job Post unsuccessful", null);
-					}
+					response = new Response("Job Post unsuccessful", null);
 				} else {
 					LOGGER.info(logTag + "Unauthorized Access : "+authCode);
 					return new ResponseEntity<Response>(getUnAuthorizedAccessRespose(), HttpStatus.UNAUTHORIZED);
@@ -192,5 +226,18 @@ public class JobController extends BaseController {
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
 	
+	//=========================================================================
+	
+	private String getString(String[] strArray) {
+		if(strArray != null && strArray.length > 0) {
+			StringBuffer sb = new StringBuffer();
+			for(String s : strArray) {
+				sb.append(s);
+				sb.append("$$");
+			}
+			return sb.toString();
+		}
+		return null;
+	}
 	//=========================================================================
 }
