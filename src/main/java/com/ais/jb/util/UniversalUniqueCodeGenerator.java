@@ -29,7 +29,7 @@ public class UniversalUniqueCodeGenerator {
 
 	// ========================================================================
 	
-	public String getResumeCode() {
+	public String getUniqueCode() {
 		UUID uuid = Generators.timeBasedGenerator().generate();
 		return uuid.toString().replaceAll("-", "");
 	}

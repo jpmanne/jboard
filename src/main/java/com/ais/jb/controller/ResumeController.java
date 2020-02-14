@@ -143,7 +143,7 @@ public class ResumeController extends BaseController {
 					
 					if(userDetails.getUserDetailsId() != null) {
 						ResumeDetails resumeDetails = new ResumeDetails();
-						resumeDetails.setResumeCode(UniversalUniqueCodeGenerator.getInstance().getResumeCode());
+						resumeDetails.setResumeCode(UniversalUniqueCodeGenerator.getInstance().getUniqueCode());
 						resumeDetails.setHeadLine(saveCandidateProfileRequest.getHeadLine());
 						resumeDetails.setObjective(saveCandidateProfileRequest.getObjective());
 						resumeDetails.setCity(saveCandidateProfileRequest.getCity());

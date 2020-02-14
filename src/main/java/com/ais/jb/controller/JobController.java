@@ -26,8 +26,6 @@ import com.ais.jb.common.Constants;
 import com.ais.jb.common.URLConstants;
 import com.ais.jb.dao.model.AuthCodeDetails;
 import com.ais.jb.dao.model.EmployerDetails;
-import com.ais.jb.dao.model.JobApplicationQualifications;
-import com.ais.jb.dao.model.JobApplicationSettings;
 import com.ais.jb.dao.model.JobDetails;
 import com.ais.jb.dao.model.RoleDetails;
 import com.ais.jb.dao.model.UserDetails;
@@ -142,6 +140,7 @@ public class JobController extends BaseController {
 		Response response = null;
 		UserDetails userDetails = null;
 		ValidationUtil validationUtil = null;
+		JobDetails jobDetails = null;
 		
 		try {
 			authorizationDetails = validateAuthorization(authCode);
@@ -158,14 +157,14 @@ public class JobController extends BaseController {
 							Optional<EmployerDetails> employerDetails = employerRepository.findById(userDetails.getUserDetailsId());
 							
 							if(employerDetails.isPresent()) {
-								JobDetails jobDetails = new JobDetails();
+								jobDetails = new JobDetails();
 								jobDetails.setJobTitle(postJobRequest.getJobTitle());
 								jobDetails.setCompany(postJobRequest.getCompanyName());
 								jobDetails.setCity(postJobRequest.getCity());
 								jobDetails.setState(postJobRequest.getState());
 								jobDetails.setCountry(postJobRequest.getCountry());
 								jobDetails.setJobType(postJobRequest.getJobType());
-								jobDetails.setJobCode(UniversalUniqueCodeGenerator.getInstance().getResumeCode());
+								jobDetails.setJobCode(UniversalUniqueCodeGenerator.getInstance().getUniqueCode());
 								jobDetails.setEmployerDetails(employerDetails.get());
 								jobDetails.setSalaryRange(postJobRequest.getSalaryRange());
 								jobDetails.setSalaryType(postJobRequest.getSalaryType());
@@ -190,26 +189,31 @@ public class JobController extends BaseController {
 								
 								//Job Application Qualifications
 								jobDetails.setNotifyRequired(postJobRequest.getNotifyRequired());
-								jobDetails.setExperienceQualification(getString(postJobRequest.getExperienceQualifications()));
-								jobDetails.setLicenseQualification(getString(postJobRequest.getLanguageQualificationa()));
-								jobDetails.setEducationQualification(getString(postJobRequest.getExperienceQualifications()));
+								jobDetails.setExperienceQualification(postJobRequest.getExperienceQualifications());
+								jobDetails.setLicenseQualification(postJobRequest.getLanguageQualifications());
+								jobDetails.setEducationQualification(postJobRequest.getExperienceQualifications());
 								jobDetails.setLocationQualification(postJobRequest.getLocationQualification());
 								jobDetails.setShiftAvailabilityQualification(postJobRequest.getShiftAvailabilityQualification());
 								jobDetails.setWillingToTravelQualification(postJobRequest.getWillingToTravelQualification());
 								jobDetails.setRequiredDocumentsQualification(postJobRequest.getRequiredDocumentsQualification());
 								jobDetails.setStartDateQualification(postJobRequest.getStartDateQualification());
 								jobDetails.setExpectedCtcQualification(postJobRequest.getExpectedCtcQualification());
+								jobDetails.setStatus(Constants.ACTIVE);
+								jobDetails.setCreatedAt(new Date());
 								jobDetails = jobRepository.save(jobDetails);
-								if(jobDetails.getJobDetailsId() != null && jobDetails.getJobDetailsId().longValue() > 0) {
-									response = new Response("Job Post successfully", null);
-								}
+							} else {
+								LOGGER.info(logTag + "Employer Not Present ");
 							}
 						} else {
 							return getInvalidDataResponseEntity(validationResult);
-							
 						}
 					}
-					response = new Response("Job Post unsuccessful", null);
+					
+					if(jobDetails.getJobDetailsId() != null && jobDetails.getJobDetailsId().longValue() > 0) {
+						response = new Response("Job Post successfully", null);
+					} else {
+						response = new Response("Job Post unsuccessful", null);
+					}
 				} else {
 					LOGGER.info(logTag + "Unauthorized Access : "+authCode);
 					return new ResponseEntity<Response>(getUnAuthorizedAccessRespose(), HttpStatus.UNAUTHORIZED);
@@ -228,16 +232,4 @@ public class JobController extends BaseController {
 	
 	//=========================================================================
 	
-	private String getString(String[] strArray) {
-		if(strArray != null && strArray.length > 0) {
-			StringBuffer sb = new StringBuffer();
-			for(String s : strArray) {
-				sb.append(s);
-				sb.append("$$");
-			}
-			return sb.toString();
-		}
-		return null;
-	}
-	//=========================================================================
 }

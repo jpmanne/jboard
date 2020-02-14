@@ -6,6 +6,7 @@
 package com.ais.jb.request.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class PostJobRequest implements Serializable {
 	private static final long serialVersionUID = 5814919948894367355L;
@@ -35,9 +36,9 @@ public class PostJobRequest implements Serializable {
 
 	//Job Application Qualifications
 	private String notifyRequired;
-	private String[] experienceQualifications;
-	private String[] licenseQualifications;
-	private String[] languageQualificationa;
+	private String experienceQualifications;
+	private String licenseQualifications;
+	private String languageQualifications;
 	private String educationQualification;
 	private String locationQualification;
 	private String shiftAvailabilityQualification;
@@ -177,23 +178,23 @@ public class PostJobRequest implements Serializable {
 	public void setNotifyRequired(String notifyRequired) {
 		this.notifyRequired = notifyRequired;
 	}
-	public String[] getExperienceQualifications() {
+	public String getExperienceQualifications() {
 		return experienceQualifications;
 	}
-	public void setExperienceQualifications(String[] experienceQualifications) {
+	public void setExperienceQualifications(String experienceQualifications) {
 		this.experienceQualifications = experienceQualifications;
 	}
-	public String[] getLicenseQualifications() {
+	public String getLicenseQualifications() {
 		return licenseQualifications;
 	}
-	public void setLicenseQualifications(String[] licenseQualifications) {
+	public void setLicenseQualifications(String licenseQualifications) {
 		this.licenseQualifications = licenseQualifications;
 	}
-	public String[] getLanguageQualificationa() {
-		return languageQualificationa;
+	public String getLanguageQualifications() {
+		return languageQualifications;
 	}
-	public void setLanguageQualificationa(String[] languageQualificationa) {
-		this.languageQualificationa = languageQualificationa;
+	public void setLanguageQualifications(String languageQualifications) {
+		this.languageQualifications = languageQualifications;
 	}
 	public String getEducationQualification() {
 		return educationQualification;

@@ -29,7 +29,7 @@ public class Constants {
 	public static final String[] JOB_HIRE_TYPES = {"1 hire", "2 - 4 hires", "5 - 10 hires", "10+ hires", "I have an ongoing need to fill this role"};
 	public static final String[] EMPLOYEE_BENEFITS = {"Health Insurance", "Provident Fund (PF)", "Paid leaves / Leave encashment", "Company cab / Shuttle service", "Travel allowance", "Meal card / Food coupons", "Flexible work hours", "Education assistance", "Phone / Internet reimbursement", "Joining bonus", "Shift allowance", "Other", "None"};
 	public static final String[] JOB_INDUSTRIES = 	{"Accounting", "Administrative Assistance", "Agriculture & Forestry", "Architecture", "Arts & Entertainment", "Aviation", "Banking & Finance", "Beauty & Wellness", "Chemical Engineering", "Childcare", "Civil Engineering", "Cleaning & Sanitation","Community & Social Service", "Construction", "Customer Service", "Dental", "Driving", "Education & Instruction", "Electrical Engineering", "Food Preparation & Service", "Hospitality & Tourism", "Human Resources", "Industrial Engineering", "Installation & Maintenace", "Insurance", "IT Operations & Helpdesk", "Legal", "Loading & Stocking", "Logistic Support", "Management", "Marketing", "Mathematics", "Mechanical Engineering", "Media & Communications", "Medical Information", "Medical Technician", "Military", "Mining", "Nursing", "Personal Care & Home Health", "Pharmacy", "Physicians & Surgeons", "Production & Manufacturing", "Project Management", "Real Estate", "Retail", "Sales", "Scientific Research & Development", "Security & Public Safety", "Social Science", "Software Development", "Sports", "Therapy", "Uncategorized", "Veterinary"};
-	
+	public static final String[] NEW_APPLICATANTS_INFORMED_TYPES = {"Daily", "Individually"};
 	
 
 }

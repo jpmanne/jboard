@@ -425,10 +425,60 @@ public class ValidationUtil {
 			} else {
 				return validateFieldResult6;
 			}
+			
+			String validateFieldResult7 = validateField("newApplicatantsInformed", details.getNewApplicatantsInformed(), true, 15);
+			if(Constants.SUCCESS.equalsIgnoreCase(validateFieldResult7)) {
+				if("Daily".equalsIgnoreCase(details.getNewApplicatantsInformed()) || "Individually".equalsIgnoreCase(details.getNewApplicatantsInformed())) {
+					
+				} else {
+					return "newApplicatantsInformed supports either Daily or Individually";
+				}
+				
+			} else {
+				return validateFieldResult7;
+			}
+			
+			String validateFieldResult8 = validateField("notifyRequired", details.getNotifyRequired(), true, 10);
+			if(Constants.SUCCESS.equalsIgnoreCase(validateFieldResult8)) {
+				if("Yes".equalsIgnoreCase(details.getNotifyRequired()) || "No".equalsIgnoreCase(details.getNotifyRequired())) {
+					
+				} else {
+					return "notifyRequired supports either Yes or No";
+				}
+				
+			} else {
+				return validateFieldResult8;
+			}
+			
+			String validateFieldResult9 = validateField("receiveApplications", details.getReceiveApplications(), true, 10);
+			if(Constants.SUCCESS.equalsIgnoreCase(validateFieldResult9)) {
+				if("Email".equalsIgnoreCase(details.getReceiveApplications()) || "In-Person".equalsIgnoreCase(details.getReceiveApplications())) {
+					
+				} else {
+					return "receiveApplications supports either Email or In-Person";
+				}
+				
+			} else {
+				return validateFieldResult9;
+			}
+			
+			String validateFieldResult10 = validateField("submitResume", details.getSubmitResume(), true, 10);
+			if(Constants.SUCCESS.equalsIgnoreCase(validateFieldResult10)) {
+				if("Yes".equalsIgnoreCase(details.getSubmitResume()) || "No".equalsIgnoreCase(details.getSubmitResume()) || "Optional".equalsIgnoreCase(details.getSubmitResume())) {
+					
+				} else {
+					return "submitResume supports either Yes or No or Optional";
+				}
+				
+			} else {
+				return validateFieldResult10;
+			}
 		} else {
 			return "PostJobRequest cannot be null";
 		}
 		return Constants.SUCCESS;
 	}
+	
+	// ========================================================================
 	
 }

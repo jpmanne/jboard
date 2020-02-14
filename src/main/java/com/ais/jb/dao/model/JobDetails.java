@@ -95,7 +95,7 @@ public class JobDetails {
 	private Date createdAt;
 
 	//Job Application Settings
-	@Column(name = "receive_applications", length = 1, nullable = false)
+	@Column(name = "receive_applications", length = 10, nullable = false)
 	private String receiveApplications;
 	
 	@Column(name = "email_addresses", nullable = true, length = 65535, columnDefinition = "text")
@@ -104,14 +104,14 @@ public class JobDetails {
 	@Column(name = "inperson_address", nullable = true, length = 65535, columnDefinition = "text")
 	private String inpersonAddresses;
 	
-	@Column(name = "new_applicatants_informed", length = 1, nullable = false)
+	@Column(name = "new_applicatants_informed", length = 15, nullable = false)
 	private String newApplicatantsInformed;
 	
-	@Column(name = "submit_resume", length = 1, nullable = false)
+	@Column(name = "submit_resume", length = 10, nullable = false)
 	private String submitResume;
 	
 	//Job Application Qualifications
-	@Column(name = "notify_required", length = 1, nullable = false)
+	@Column(name = "notify_required", length = 10, nullable = false)
 	private String notifyRequired;
 	
 	@Column(name = "experience_qualification", nullable = true, length = 65535, columnDefinition = "text")
