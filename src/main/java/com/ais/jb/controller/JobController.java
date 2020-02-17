@@ -16,6 +16,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -225,6 +227,126 @@ public class JobController extends BaseController {
 		} catch (Exception e) {
 			String exceptionMessage = logTag + "Exception while building the candidate resume.";
 			handleException(LOGGER, logTag, exceptionMessage, e, null);
+		}
+		LOGGER.info(AppUtil.getEndMethodMessage(logTag));
+		return new ResponseEntity<Response>(response, HttpStatus.OK);
+	}
+	
+	//=========================================================================
+	
+	/*@GetMapping(URLConstants.Job.GET_JOB_DETAILS_BY_ID)
+	public ResponseEntity<Response> getJobDetails(@RequestParam("authCode") String authCode, @PathVariable(value = "jobDetailsId") Long jobDetailsId) throws JBoradException {
+		String logTag = "getJobDetails() :";
+		LOGGER.info(AppUtil.getStartMethodMessage(logTag));
+		AuthorizationDetails authorizationDetails = null;
+		Response response = null;
+		
+		try {
+			authorizationDetails = validateAuthorization(authCode);
+			
+			if(authorizationDetails.isValidAuthCode()) {
+				if(authorizationDetails.isValidAccess()) {
+					Optional<JobDetails> optionalJobDetails = jobRepository.findById(jobDetailsId);
+					JobDetails jobDetails = null;
+					
+					if(optionalJobDetails.isPresent()) {
+						jobDetails = optionalJobDetails.get();
+					}
+					
+					if(jobDetails != null) {
+						response = new Response("Job Details", jobDetails.getWebJobDetails());
+					} else {
+						response = new Response("No Job Details found for jobDetailsId: "+jobDetailsId, null);
+					}
+				} else {
+					LOGGER.info(logTag + "Unauthorized Access : "+authCode);
+					return new ResponseEntity<Response>(getUnAuthorizedAccessRespose(), HttpStatus.UNAUTHORIZED);
+				}
+			} else {
+				response = getInvalidAuthCodeRespose(authCode);
+				LOGGER.info(logTag + "Invalid AuthCode : "+authCode);
+			}
+		} catch (Exception e) {
+			String exceptionMessage = logTag + "Exception while retrieving the Jobe details";
+			handleException(LOGGER, logTag, exceptionMessage, e, authorizationDetails); 
+		}
+		LOGGER.info(AppUtil.getEndMethodMessage(logTag));
+		return new ResponseEntity<Response>(response, HttpStatus.OK);
+	}*/
+
+	//=========================================================================
+	
+	@GetMapping(URLConstants.Job.GET_JOB_DETAILS_BY_JOBCODE)
+	public ResponseEntity<Response> getJobDetails(@RequestParam("authCode") String authCode, @PathVariable(value = "jobCode") String jobCode) throws JBoradException {
+		String logTag = "getJobDetails() :";
+		LOGGER.info(AppUtil.getStartMethodMessage(logTag));
+		AuthorizationDetails authorizationDetails = null;
+		Response response = null;
+		JobDetails jobDetails = null;
+		
+		try {
+			authorizationDetails = validateAuthorization(authCode);
+			
+			if(authorizationDetails.isValidAuthCode()) {
+				if(authorizationDetails.isValidAccess()) {
+					List<JobDetails> jobsByJobCode = jobRepository.getJobDetailsByJobCode(jobCode);
+					
+					if(jobsByJobCode != null && !jobsByJobCode.isEmpty()) {
+						jobDetails = jobsByJobCode.get(0);
+					}
+					
+					if(jobDetails != null) {
+						response = new Response("Job Details", jobDetails.getWebJobDetails());
+					} else {
+						response = new Response("No Job Details found for jobCode: "+jobCode, null);
+					}
+				} else {
+					LOGGER.info(logTag + "Unauthorized Access : "+authCode);
+					return new ResponseEntity<Response>(getUnAuthorizedAccessRespose(), HttpStatus.UNAUTHORIZED);
+				}
+			} else {
+				response = getInvalidAuthCodeRespose(authCode);
+				LOGGER.info(logTag + "Invalid AuthCode : "+authCode);
+			}
+		} catch (Exception e) {
+			String exceptionMessage = logTag + "Exception while retrieving the Jobe details";
+			handleException(LOGGER, logTag, exceptionMessage, e, authorizationDetails); 
+		}
+		LOGGER.info(AppUtil.getEndMethodMessage(logTag));
+		return new ResponseEntity<Response>(response, HttpStatus.OK);
+	}
+
+	//=========================================================================
+	
+	@GetMapping(URLConstants.Job.GET_EMPLOYEE_BENEFITS)
+	public ResponseEntity<Response> getEmployeeBenefits() throws JBoradException {
+		String logTag = "getEmployeeBenefits() :";
+		LOGGER.info(AppUtil.getStartMethodMessage(logTag));
+		Response response = null;
+		
+		try {
+			response = new Response("Employee Benefits", AppUtil.getOptions(Constants.EMPLOYEE_BENEFITS));
+		} catch (Exception e) {
+			String exceptionMessage = logTag + "Exception while retrieving the Employee Benefits";
+			handleException(LOGGER, logTag, exceptionMessage, e, null); 
+		}
+		LOGGER.info(AppUtil.getEndMethodMessage(logTag));
+		return new ResponseEntity<Response>(response, HttpStatus.OK);
+	}
+
+	//=========================================================================
+	
+	@GetMapping(URLConstants.Job.GET_JOB_INDUSTRIES)
+	public ResponseEntity<Response> getJobIndustries() throws JBoradException {
+		String logTag = "getJobIndustries() :";
+		LOGGER.info(AppUtil.getStartMethodMessage(logTag));
+		Response response = null;
+		
+		try {
+			response = new Response("Job Industries", AppUtil.getOptions(Constants.JOB_INDUSTRIES));
+		} catch (Exception e) {
+			String exceptionMessage = logTag + "Exception while retrieving the Job Industries";
+			handleException(LOGGER, logTag, exceptionMessage, e, null); 
 		}
 		LOGGER.info(AppUtil.getEndMethodMessage(logTag));
 		return new ResponseEntity<Response>(response, HttpStatus.OK);

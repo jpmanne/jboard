@@ -1,7 +1,9 @@
 package com.ais.jb.util;
 
+import java.util.ArrayList;
 import java.util.List;
 import com.ais.jb.dao.model.UserDetails;
+import com.ais.jb.model.OptionDetails;
 
 public class AppUtil {
 
@@ -31,6 +33,19 @@ public class AppUtil {
 	
 	public static String getEndMethodMessage(String logTag) {
 		return logTag + "END of the method";
+	}
+	
+	//=========================================================================
+	
+	public static List<OptionDetails> getOptions(String[] stringArray) {
+		List<OptionDetails> options = new ArrayList<OptionDetails>();
+		int index = 1;
+		if(stringArray != null) {
+			for(String str : stringArray) {
+				options.add(new OptionDetails(index++, str));
+			}
+		}
+		return options;
 	}
 	
 	//=========================================================================

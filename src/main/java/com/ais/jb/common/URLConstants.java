@@ -37,6 +37,10 @@ public class URLConstants {
 		public static final String API_BASE = "/api/job";
 		public static final String SAVE_EMPLOYER_PROFILE = "/save/profile/employer";
 		public static final String POST_JOB = "/post";
+		public static final String GET_JOB_DETAILS_BY_ID = "/get/details/{jobDetailsId}";
+		public static final String GET_JOB_DETAILS_BY_JOBCODE = "/get/details/{jobCode}";
+		public static final String GET_EMPLOYEE_BENEFITS = "/get/employee/benefits";
+		public static final String GET_JOB_INDUSTRIES = "/get/industries";
 
 	}
 	

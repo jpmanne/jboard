@@ -22,6 +22,8 @@ import javax.persistence.TemporalType;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.ais.jb.response.model.WebJobDetails;
+
 @Entity
 @Table(name = "job_details")
 @EntityListeners(AuditingEntityListener.class)
@@ -438,5 +440,48 @@ public class JobDetails {
 
 	public void setExpectedCtcQualification(String expectedCtcQualification) {
 		this.expectedCtcQualification = expectedCtcQualification;
+	}
+	
+	public WebJobDetails getWebJobDetails() {
+		WebJobDetails details = new WebJobDetails();
+		details.setJobDetailsId(this.jobDetailsId);
+		details.setJobCode(this.jobCode); 
+		details.setJobTitle(this.jobTitle);
+		details.setCompany(this.company);
+		details.setCity(this.city);
+		details.setState(this.state);
+		details.setCountry(this.country);
+		details.setJobType(this.jobType);
+		details.setSalaryRange(this.salaryRange);
+		details.setSalaryType(this.salaryType);
+		details.setHowManyHires(this.howManyHires);
+		details.setHowUrgentlyRequired(this.howUrgentlyRequired);
+		details.setAdditionalDetails(this.additionalDetails);
+		details.setIndustry(this.industry);
+		details.setJobSummary(this.jobSummary);
+		details.setResponsibilitiesAndDuties(this.responsibilitiesAndDuties);
+		details.setQualificationsAndSkills(this.qualificationsAndSkills);
+		details.setBenefits(this.benefits);
+		details.setStatus(this.status);
+		details.setCreatedAt(this.createdAt);
+		details.setEmployerDetailsId(this.employerDetails.getEmployerDetailsId());
+		details.setReceiveApplications(this.receiveApplications);
+		details.setEmailAddresses(this.emailAddresses);
+		details.setInpersonAddresses(this.inpersonAddresses);
+		details.setNewApplicatantsInformed(this.newApplicatantsInformed);
+		details.setSubmitResume(this.submitResume);
+		details.setNotifyRequired(this.notifyRequired);
+		details.setExperienceQualification(this.experienceQualification);
+		details.setLicenseQualification(this.licenseQualification);
+		details.setLanguageQualification(this.languageQualification);
+		details.setEducationQualification(this.educationQualification);
+		details.setLocationQualification(this.locationQualification);
+		details.setShiftAvailabilityQualification(this.shiftAvailabilityQualification);
+		details.setWillingToTravelQualification(this.willingToTravelQualification);
+		details.setRequiredDocumentsQualification(this.requiredDocumentsQualification);
+		details.setStartDateQualification(this.startDateQualification);
+		details.setExpectedCtcQualification(this.expectedCtcQualification);
+		
+		return details;
 	}
 }
