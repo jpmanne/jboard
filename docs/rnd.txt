@@ -1,0 +1,7 @@
+select * from job_details where benefits LIKE '%rre%' or country LIKE '%di%';
+
+select * from job_details where benefits LIKE '%rre%' or benefits LIKE '%the%';
+
+select * from job_details where benefits REGEXP 'loe|thdde' or experience_qualification REGEXP 'lo|thdde';
+
+select * from job_details where job_title REGEXP 'Automation|Engineer'

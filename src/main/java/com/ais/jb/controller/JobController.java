@@ -5,6 +5,7 @@
 */
 package com.ais.jb.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -39,7 +40,9 @@ import com.ais.jb.repository.JobRepository;
 import com.ais.jb.repository.UserRepository;
 import com.ais.jb.request.model.PostJobRequest;
 import com.ais.jb.request.model.SaveEmployerProfileRequest;
+import com.ais.jb.request.model.SearchJobRequest;
 import com.ais.jb.response.model.EmployerProfileResponse;
+import com.ais.jb.response.model.WebJobSearchDetails;
 import com.ais.jb.util.AppUtil;
 import com.ais.jb.util.AuthCodeGenerator;
 import com.ais.jb.util.PasswordEncy;
@@ -351,6 +354,72 @@ public class JobController extends BaseController {
 		LOGGER.info(AppUtil.getEndMethodMessage(logTag));
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
+	
+	//=========================================================================
+	
+	@PostMapping(URLConstants.Job.SEARCH_JOB)
+	public ResponseEntity<Response> searchJob(@RequestBody SearchJobRequest searchJobRequest,
+		@RequestParam(value = "authCode", required = false/* , defaultValue="d_authcode" */) String authCode) throws JBoradException {
+		String logTag = "searchJob() :";
+		LOGGER.info(AppUtil.getStartMethodMessage(logTag));
+		AuthorizationDetails authorizationDetails = null;
+		Response response = null;
+		List<WebJobSearchDetails> webJobSearchDetailsList = null;
+		UserDetails userDetails = null;
+		
+		try {
+			String validationResult = ValidationUtil.getInstance().validateSearchJobDetails(searchJobRequest);
+			
+			if(Constants.SUCCESS.equalsIgnoreCase(validationResult)) {
+				if(authCode != null ) {
+					authorizationDetails = validateAuthorization(authCode);
+					
+					if(authorizationDetails.isValidAuthCode()) {
+						if(authorizationDetails.isValidAccess()) {
+							userDetails = new UserDetails();
+							userDetails.setUserDetailsId(authorizationDetails.getUserDetailsId());
+						} else {
+							LOGGER.info(logTag + "Unauthorized Access : "+authCode);
+							return new ResponseEntity<Response>(getUnAuthorizedAccessRespose(), HttpStatus.UNAUTHORIZED);
+						}
+					} else {
+						LOGGER.info(logTag + "Invalid AuthCode : "+authCode);
+						return new ResponseEntity<Response>(getInvalidAuthCodeRespose(authCode), HttpStatus.OK);
+					}
+				}
+				String searchTermWhat = searchJobRequest.getSearchTermWhat();
+				if(searchTermWhat != null) {
+					searchTermWhat = searchTermWhat.trim().replaceAll(" ", "|");
+				}
+				List<JobDetails> jobs = jobRepository.getJobs(searchTermWhat, searchTermWhat, searchTermWhat, searchTermWhat, searchTermWhat, searchTermWhat, searchTermWhat);
+				
+				
+				if(jobs != null && !jobs.isEmpty()) {
+					webJobSearchDetailsList = new ArrayList<WebJobSearchDetails>();
+					
+					for(JobDetails details : jobs) {
+						WebJobSearchDetails searchDetails = new WebJobSearchDetails();
+						searchDetails.setJobCode(details.getJobCode());
+						searchDetails.setJobDetailsId(details.getJobDetailsId());
+						searchDetails.setJobTitle(details.getJobTitle());
+						searchDetails.setCompany(details.getCompany());
+						webJobSearchDetailsList.add(searchDetails);
+					}
+				}
+				response = new Response("Jobs", webJobSearchDetailsList);
+			} else {
+				return getInvalidDataResponseEntity(validationResult);
+			}
+		} catch (Exception e) {
+			String exceptionMessage = logTag + "Exception while building the candidate resume.";
+			handleException(LOGGER, logTag, exceptionMessage, e, null);
+		}
+		LOGGER.info(AppUtil.getEndMethodMessage(logTag));
+		return new ResponseEntity<Response>(response, HttpStatus.OK);
+	}
+	
+	//=========================================================================
+	
 	
 	//=========================================================================
 	

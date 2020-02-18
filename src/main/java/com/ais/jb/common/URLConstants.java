@@ -41,6 +41,8 @@ public class URLConstants {
 		public static final String GET_JOB_DETAILS_BY_JOBCODE = "/get/details/{jobCode}";
 		public static final String GET_EMPLOYEE_BENEFITS = "/get/employee/benefits";
 		public static final String GET_JOB_INDUSTRIES = "/get/industries";
+		public static final String SEARCH_JOB = "/search";
+		public static final String ADVANCED_SEARCH_JOB = "/search/advanced";
 
 	}
 	
