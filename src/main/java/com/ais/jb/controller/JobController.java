@@ -5,9 +5,11 @@
 */
 package com.ais.jb.controller;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -364,7 +366,6 @@ public class JobController extends BaseController {
 		LOGGER.info(AppUtil.getStartMethodMessage(logTag));
 		AuthorizationDetails authorizationDetails = null;
 		Response response = null;
-		List<WebJobSearchDetails> webJobSearchDetailsList = null;
 		UserDetails userDetails = null;
 		
 		try {
@@ -387,24 +388,36 @@ public class JobController extends BaseController {
 						return new ResponseEntity<Response>(getInvalidAuthCodeRespose(authCode), HttpStatus.OK);
 					}
 				}
+				List<JobDetails> jobs = null;
 				String searchTermWhat = searchJobRequest.getSearchTermWhat();
+				String searchTermWhere = searchJobRequest.getSearchTermWhere();
+				Collection<WebJobSearchDetails> webJobSearchDetailsList = null;
+				
+				if(searchTermWhat != null && searchTermWhere != null) {
+					searchTermWhat = searchTermWhat.trim().replaceAll(" ", "|");
+					searchTermWhere = searchTermWhere.trim().replaceAll(" ", "|");
+					jobs = jobRepository.getJobsBySkillsAndLocation(searchTermWhat, searchTermWhat, searchTermWhat, searchTermWhat, searchTermWhat, searchTermWhat, searchTermWhat, searchTermWhere, searchTermWhere);
+				}
+				
 				if(searchTermWhat != null) {
 					searchTermWhat = searchTermWhat.trim().replaceAll(" ", "|");
+					jobs = jobRepository.getJobs(searchTermWhat, searchTermWhat, searchTermWhat, searchTermWhat, searchTermWhat, searchTermWhat, searchTermWhat);
 				}
-				List<JobDetails> jobs = jobRepository.getJobs(searchTermWhat, searchTermWhat, searchTermWhat, searchTermWhat, searchTermWhat, searchTermWhat, searchTermWhat);
 				
+				if(searchTermWhere != null) {
+					searchTermWhere = searchTermWhere.trim().replaceAll(" ", "|");
+					jobs = jobRepository.getJobsByLocation(searchTermWhere, searchTermWhere);
+				}
 				
 				if(jobs != null && !jobs.isEmpty()) {
-					webJobSearchDetailsList = new ArrayList<WebJobSearchDetails>();
+					Map<String, WebJobSearchDetails> map = new HashMap<String, WebJobSearchDetails>();
 					
 					for(JobDetails details : jobs) {
-						WebJobSearchDetails searchDetails = new WebJobSearchDetails();
-						searchDetails.setJobCode(details.getJobCode());
-						searchDetails.setJobDetailsId(details.getJobDetailsId());
-						searchDetails.setJobTitle(details.getJobTitle());
-						searchDetails.setCompany(details.getCompany());
-						webJobSearchDetailsList.add(searchDetails);
+						if (!map.containsKey(details.getJobCode())) {
+					          map.put(details.getJobCode(), details.getWebJobSearchDetails());
+					     }
 					}
+					webJobSearchDetailsList = map.values();
 				}
 				response = new Response("Jobs", webJobSearchDetailsList);
 			} else {

@@ -23,11 +23,23 @@ public interface JobRepository extends JpaRepository<JobDetails, Long>, JobRepos
 	//select * from job_details where job_title REGEXP 'loe|thdde' or experience_qualification REGEXP 'loe|thdde';
 	/*job_title, job_summary, experience_qualification, license_qualification, responsibilities_and_duties, qualifications_and_skills, company
 	city or state*/
-	StringBuilder searchJobsQuery = new StringBuilder("");
 	
 	@Query(value = "select * from job_details where job_title REGEXP ?1 or job_summary REGEXP ?2 "
 	+ "or experience_qualification REGEXP ?3 or license_qualification REGEXP ?4 or company REGEXP ?5 "
 	+ "or responsibilities_and_duties REGEXP ?6 or qualifications_and_skills REGEXP ?7", nativeQuery = true)
 	List<JobDetails> getJobs(@Param("1") String searchTerm1, @Param("2") String searchTerm2, @Param("3") String searchTerm3, 
 	@Param("4") String searchTerm4, @Param("5") String searchTerm5, @Param("6") String searchTerm6 , @Param("7") String searchTerm7);
+	
+	//select * from job_details where city REGEXP 'Hyd|thdde' or state REGEXP 'loe|thdde';
+	@Query(value = "select * from job_details where city REGEXP ?1 or state REGEXP ?2 ", nativeQuery = true)
+	List<JobDetails> getJobsByLocation(@Param("1") String searchTerm1, @Param("2") String searchTerm2);
+	
+	
+	@Query(value = "select * from job_details where job_title REGEXP ?1 or job_summary REGEXP ?2 "
+	+ "or experience_qualification REGEXP ?3 or license_qualification REGEXP ?4 or company REGEXP ?5 "
+	+ "or responsibilities_and_duties REGEXP ?6 or qualifications_and_skills REGEXP ?7 and ( city REGEXP ?8 or state REGEXP ?9)", nativeQuery = true)
+	List<JobDetails> getJobsBySkillsAndLocation(@Param("1") String searchTerm1, @Param("2") String searchTerm2, @Param("3") String searchTerm3, 
+	@Param("4") String searchTerm4, @Param("5") String searchTerm5, @Param("6") String searchTerm6 , @Param("7") String searchTerm7,
+	@Param("8") String searchTerm8 , @Param("9") String searchTerm9);
+	
 }

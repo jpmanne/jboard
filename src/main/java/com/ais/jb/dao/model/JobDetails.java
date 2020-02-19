@@ -23,6 +23,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.ais.jb.response.model.WebJobDetails;
+import com.ais.jb.response.model.WebJobSearchDetails;
 
 @Entity
 @Table(name = "job_details")
@@ -442,6 +443,8 @@ public class JobDetails {
 		this.expectedCtcQualification = expectedCtcQualification;
 	}
 	
+	//=========================================================================
+	
 	public WebJobDetails getWebJobDetails() {
 		WebJobDetails details = new WebJobDetails();
 		details.setJobDetailsId(this.jobDetailsId);
@@ -484,4 +487,26 @@ public class JobDetails {
 		
 		return details;
 	}
+	
+	//=========================================================================
+	
+	public WebJobSearchDetails getWebJobSearchDetails() {
+		WebJobSearchDetails searchDetails = new WebJobSearchDetails();
+		searchDetails.setJobCode(this.jobCode);
+		searchDetails.setJobDetailsId(this.jobDetailsId);
+		searchDetails.setJobTitle(this.jobTitle);
+		searchDetails.setCompany(this.company);
+		searchDetails.setCity(this.city);
+		searchDetails.setState(this.state);
+		
+		if(this.salaryRange != null && this.salaryType != null) {
+			searchDetails.setSalary(this.salaryRange.concat(" ").concat(this.salaryType));
+		}
+		searchDetails.setJobSummary(this.jobSummary);
+		searchDetails.setHowUrgentlyRequired(this.howUrgentlyRequired);
+		searchDetails.setResponsibilitiesAndDuties(this.responsibilitiesAndDuties);
+		searchDetails.setQualificationsAndSkills(this.qualificationsAndSkills);
+		return searchDetails;
+	}
+	//=========================================================================
 }
