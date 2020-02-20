@@ -7,9 +7,12 @@ package com.ais.jb.controller;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -62,6 +65,8 @@ import com.ais.jb.repository.UserRepository;
 import com.ais.jb.repository.WorkExperienceDetailsRepository;
 import com.ais.jb.request.model.BuildCandidateResumeRequest;
 import com.ais.jb.request.model.SaveCandidateProfileRequest;
+import com.ais.jb.request.model.SearchJobRequest;
+import com.ais.jb.request.model.SearchResumeRequest;
 import com.ais.jb.response.model.CandidateProfileResponse;
 import com.ais.jb.response.model.GetResumeDetailsResponse;
 import com.ais.jb.response.model.WebAwardsOrAchievementsDetails;
@@ -562,4 +567,89 @@ public class ResumeController extends BaseController {
 	}
 	
 	//=========================================================================
+	
+	@PostMapping(URLConstants.Resume.SEARCH_RESUME)
+	public ResponseEntity<Response> searchResume(@RequestBody SearchResumeRequest searchResumeRequest, @RequestParam(value = "authCode", required = false) String authCode) throws JBoradException {
+		String logTag = "searchResume() :";
+		LOGGER.info(AppUtil.getStartMethodMessage(logTag));
+		AuthorizationDetails authorizationDetails = null;
+		Response response = null;
+		UserDetails userDetails = null;
+		
+		try {
+			String validationResult = ValidationUtil.getInstance().validateSearchResumeDetails(searchResumeRequest);
+			
+			if(Constants.SUCCESS.equalsIgnoreCase(validationResult)) {
+				if(authCode != null ) {
+					authorizationDetails = validateAuthorization(authCode);
+					
+					if(authorizationDetails.isValidAuthCode()) {
+						if(authorizationDetails.isValidAccess()) {
+							userDetails = new UserDetails();
+							userDetails.setUserDetailsId(authorizationDetails.getUserDetailsId());
+						} else {
+							LOGGER.info(logTag + "Unauthorized Access : "+authCode);
+							return new ResponseEntity<Response>(getUnAuthorizedAccessRespose(), HttpStatus.UNAUTHORIZED);
+						}
+					} else {
+						LOGGER.info(logTag + "Invalid AuthCode : "+authCode);
+						return new ResponseEntity<Response>(getInvalidAuthCodeRespose(authCode), HttpStatus.OK);
+					}
+				}
+				String searchTermWhat = searchResumeRequest.getSearchTermWhat();
+				String searchTermWhere = searchResumeRequest.getSearchTermWhere();
+				String searchFields = searchResumeRequest.getSearchFields();
+				List<String> searchFieldsList = null;
+				
+				if(searchTermWhat != null) {
+					searchTermWhat = searchTermWhat.trim().replaceAll(" ", "|");
+				}
+				if(searchTermWhere != null) {
+					searchTermWhere = searchTermWhere.trim().replaceAll(" ", "|");
+				}
+				
+				if(searchFields != null && searchFields.trim().length() > 0) {
+					if(searchFields.contains(",")) {
+						searchFieldsList = Arrays.stream(searchFields.split(",")).collect(Collectors.toList());
+						//searchFieldsList = Arrays.asList(searchFields.split(","));
+					} else {
+						searchFieldsList = new ArrayList<String>();
+						searchFieldsList.add(searchFields);
+					}
+				}
+				List<ResumeDetails> resumes = null;
+				
+				if(searchFieldsList != null && !searchFieldsList.isEmpty()) {
+					for (String searchField : searchFieldsList) {
+						if("jobtitle".equalsIgnoreCase(searchField)) {
+							if(searchTermWhat != null && searchTermWhere != null) {
+								resumes = resumeRepository.getResumesByHeadLineAndLocation(searchTermWhat, searchTermWhere, searchTermWhere, searchTermWhere);
+							} else if(searchTermWhat != null) {
+								resumes = resumeRepository.getResumesByHeadLine(searchTermWhat);
+							} else if (searchTermWhere != null) {
+								resumes = resumeRepository.getResumesByLocation(searchTermWhere, searchTermWhere, searchTermWhere);
+							}
+						} else if("skills".equalsIgnoreCase(searchField)) {
+							
+						} else if("companies".equalsIgnoreCase(searchField)) {
+							
+						} else if("fieldofstudy".equalsIgnoreCase(searchField)) {
+							
+						}
+					}
+				} else { // TODO: As the search fields are not provided need to search in Job Title, Skills, Company
+					
+				}
+				
+			} else {
+				return getInvalidDataResponseEntity(validationResult);
+			}
+		} catch (Exception e) {
+			String exceptionMessage = logTag + "Exception while building the candidate resume.";
+			handleException(LOGGER, logTag, exceptionMessage, e, null);
+		}
+		LOGGER.info(AppUtil.getEndMethodMessage(logTag));
+		return new ResponseEntity<Response>(response, HttpStatus.OK);
+	}
+	
 }

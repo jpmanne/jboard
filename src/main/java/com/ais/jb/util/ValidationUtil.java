@@ -19,6 +19,7 @@ import com.ais.jb.request.model.PostJobRequest;
 import com.ais.jb.request.model.SaveCandidateProfileRequest;
 import com.ais.jb.request.model.SaveEmployerProfileRequest;
 import com.ais.jb.request.model.SearchJobRequest;
+import com.ais.jb.request.model.SearchResumeRequest;
 
 public class ValidationUtil {
 	
@@ -483,6 +484,25 @@ public class ValidationUtil {
 	// ========================================================================
 	
 	public String validateSearchJobDetails(SearchJobRequest details) {
+		int searchTermCount = 0;
+		
+		if(details.getSearchTermWhat() != null && details.getSearchTermWhat().trim().length() > 0) {
+			searchTermCount++;
+		} else {
+			if(details.getSearchTermWhere() != null && details.getSearchTermWhere().trim().length() > 0) {
+				searchTermCount++;
+			}
+		}
+		
+		if(searchTermCount == 0) {
+			return "Please provide atleast one search term";
+		}
+		return Constants.SUCCESS;
+	}
+	
+	// ========================================================================
+	
+	public String validateSearchResumeDetails(SearchResumeRequest details) {
 		int searchTermCount = 0;
 		
 		if(details.getSearchTermWhat() != null && details.getSearchTermWhat().trim().length() > 0) {
